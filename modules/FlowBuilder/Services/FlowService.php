@@ -78,6 +78,17 @@ class FlowService
             }
         }
 
+        // Filter out self-loop edges from metadata before saving
+        if (isset($data['metadata'])) {
+            $metadataParsed = json_decode($data['metadata'], true);
+            if (isset($metadataParsed['edges']) && is_array($metadataParsed['edges'])) {
+                $metadataParsed['edges'] = array_values(array_filter($metadataParsed['edges'], function ($edge) {
+                    return !isset($edge['source']) || !isset($edge['target']) || (string) $edge['source'] !== (string) $edge['target'];
+                }));
+                $data['metadata'] = json_encode($metadataParsed);
+            }
+        }
+
         $flow->update($data);
 
         $flow = Flow::where('uuid', $uuid)->firstOrFail();

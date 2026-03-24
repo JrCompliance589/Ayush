@@ -616,11 +616,11 @@ class FlowExecutionService
         $edgesArray = json_decode($flow->metadata, true);
         $edges = \Arr::get($edgesArray, "edges", null);
         
-        // Find edges that start from the current step
+        // Find edges that start from the current step (excluding self-loops)
         $nextNodes = [];
         foreach ($edges as $edge) {
             if (isset($edge['source']) && (string) $edge['source'] === (string) $flowData->current_step) {
-                if (isset($edge['targetNode']['id'])) {
+                if (isset($edge['targetNode']['id']) && (string) $edge['targetNode']['id'] !== (string) $flowData->current_step) {
                     $nextNodes[] = $edge['targetNode']['id'];
                 }
             }
@@ -713,8 +713,14 @@ class FlowExecutionService
         }
 
         if (count($matchingEdges) === 1) {
+            $edge = $matchingEdges[0];
+            // Filter out self-loop edges (a node pointing to itself)
+            if (isset($edge['source']) && isset($edge['target']) && (string) $edge['source'] === (string) $edge['target']) {
+                Log::debug("Single self-loop edge detected, treating as end of flow");
+                return [];
+            }
             Log::debug("Single edge found, returning targetNode");
-            return $matchingEdges[0]['targetNode'] ?? [];
+            return $edge['targetNode'] ?? [];
         } else if (count($matchingEdges) > 1) {
             $firstEdge = $matchingEdges[0];
             $nodeType = $firstEdge['sourceNode']['type'] ?? null;

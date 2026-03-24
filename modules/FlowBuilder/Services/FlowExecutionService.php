@@ -345,6 +345,13 @@ class FlowExecutionService
             $nextMetadata = $this->findEdgesBySource($edges, $flowData->current_step, '');
             $nextNodeType = \Arr::get($nextMetadata, "type", null);
 
+            // If no next node exists, this is the end of the flow - clean up
+            if (empty($nextMetadata)) {
+                Log::info("No next node after message, flow has ended for contact {$contactId}");
+                FlowUserData::where('contact_id', $contactId)->delete();
+                return true;
+            }
+
             if ($nextNodeType === 'action') {
                 // Check if the next action has wait_for_reply enabled
                 $nextConfig = \Arr::get($nextMetadata, "data.config", []);
@@ -361,7 +368,7 @@ class FlowExecutionService
                 continue;
             }
 
-            // Next node is a message node or end of flow — stop and wait for user reply
+            // Next node is a message node — stop and wait for user reply
             return true;
         }
         

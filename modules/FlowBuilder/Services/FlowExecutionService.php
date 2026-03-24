@@ -91,7 +91,19 @@ class FlowExecutionService
                         return false; // Return false but don't delete flow data
                     }
                     
-                    return $result;
+                    // If flow ended (result=false) and FlowUserData was cleaned up,
+                    // fall through to keyword matching so the message can trigger a new flow
+                    if ($result === false) {
+                        $flowData = FlowUserData::where('contact_id', $chat->contact_id)->first();
+                        if (!$flowData) {
+                            Log::info("Flow ended for contact {$chat->contact_id}, re-evaluating message for keyword matching");
+                            // Fall through to keyword matching below
+                        } else {
+                            return $result;
+                        }
+                    } else {
+                        return $result;
+                    }
                 }
             }
 

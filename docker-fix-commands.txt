@@ -1,0 +1,38 @@
+============================================================
+  DOCKER DB FIX COMMANDS - Run if Docker stops working again
+============================================================
+
+# Step 1: Check Docker status
+systemctl status docker
+
+
+chattr -i /etc/systemd/system/docker.service 2>/dev/null
+chattr -i /run/systemd/system/docker.service 2>/dev/null
+rm -f /etc/systemd/system/docker.service
+rm -f /run/systemd/system/docker.service
+chattr -i /usr/bin/dockerd 2>/dev/null
+chattr -i /usr/bin/docker 2>/dev/null
+chattr -i /usr/bin/docker-proxy 2>/dev/null
+chattr -i /usr/bin/containerd 2>/dev/null
+chattr -i /usr/bin/containerd-shim-runc-v2 2>/dev/null
+chattr -i /usr/bin/ctr 2>/dev/null
+chattr -i /usr/bin/runc 2>/dev/null
+ls -la /usr/bin/dockerd
+cd /tmp
+dpkg-deb -x /var/cache/apt/archives/docker-ce_*.deb docker-extract
+cp /tmp/docker-extract/usr/bin/dockerd /usr/bin/dockerd
+chmod 755 /usr/bin/dockerd
+cp /tmp/docker-extract/lib/systemd/system/docker.service /lib/systemd/system/docker.service
+systemctl daemon-reload
+systemctl reset-failed docker
+systemctl start docker
+systemctl enable docker
+docker ps -a
+systemctl status docker
+rm -rf /tmp/docker-extract
+
+============================================================
+  ONE-LINER (copy-paste full block to fix everything at once)
+============================================================
+
+chattr -i /etc/systemd/system/docker.service /run/systemd/system/docker.service /usr/bin/dockerd /usr/bin/docker /usr/bin/docker-proxy /usr/bin/containerd /usr/bin/containerd-shim-runc-v2 /usr/bin/ctr /usr/bin/runc 2>/dev/null; rm -f /etc/systemd/system/docker.service /run/systemd/system/docker.service; FILE=$(ls /var/cache/apt/archives/docker-ce_*.deb 2>/dev/null | head -1); if [ -n "$FILE" ] && [ ! -s /usr/bin/dockerd ]; then cd /tmp && dpkg-deb -x "$FILE" docker-extract && cp /tmp/docker-extract/usr/bin/dockerd /usr/bin/dockerd && cp /tmp/docker-extract/lib/systemd/system/docker.service /lib/systemd/system/docker.service && chmod 755 /usr/bin/dockerd && rm -rf /tmp/docker-extract; fi; systemctl daemon-reload && systemctl reset-failed docker 2>/dev/null; systemctl start docker && systemctl enable docker && docker ps -a

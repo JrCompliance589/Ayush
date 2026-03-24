@@ -1,0 +1,1199 @@
+<script setup>
+import { ref, onMounted, computed, watch } from 'vue';
+import {
+    Wallet,
+    TrendingUp,
+    TrendingDown,
+    DollarSign,
+    Filter,
+    RefreshCw,
+    Loader2,
+    X,
+    Eye,
+    ChevronDown,
+    ChevronUp,
+    IndianRupee,
+    Calendar,
+    User,
+    Building2,
+    Receipt,
+    CreditCard,
+    Plus,
+    CheckCircle,
+    AlertCircle,
+    FileText,
+    Clock
+} from 'lucide-vue-next';
+
+const props = defineProps({
+    userId: {
+        type: [String, Number],
+        default: null
+    }
+});
+
+const apiBaseUrl = import.meta.env.VITE_BACKEND_API_URL;
+
+const emit = defineEmits(['error']);
+
+// State
+const loading = ref(false);
+const showModal = ref(false);
+const showFilters = ref(false);
+const selectedBalance = ref(null);
+const showBalanceDetail = ref(false);
+const showRepaymentModal = ref(false);
+const expandedSections = ref({
+    summary: true,
+    balances: true
+});
+
+// Filters
+const filters = ref({
+    page: 1,
+    limit: 10,
+    transaction_type: '',
+    user_id: props.userId || '',
+    is_settled: '',
+    search: '',
+    from_date: '',
+    to_date: '',
+    sort_by: 'transaction_date',
+    sort_order: 'DESC'
+});
+
+// Data
+const balancesData = ref({
+    balances: [],
+    pagination: {
+        totalItems: 0,
+        currentPage: 1,
+        totalPages: 0,
+        limit: 10
+    }
+});
+
+const summaryData = ref({
+    pending: { count: 0, total_amount: '0.00' },
+    advance: { count: 0, total_amount: '0.00' },
+    repayment: { count: 0, total_amount: '0.00' }
+});
+
+// Updated to match new API response format
+const userBalanceSummary = ref({
+    user_id: null,
+    balance_type: 'settled', // 'pending', 'advance', or 'settled'
+    balance_amount: 0, // Absolute value
+    display_message: 'No pending balance',
+    pending_transactions: 0,
+    advance_transactions: 0,
+    repayment_transactions: 0,
+    raw_balance: 0 // Keep for internal calculations
+});
+
+// Repayment form
+const repaymentForm = ref({
+    user_id: null,
+    repayment_amount: '',
+    repaid_by: null,
+    repayment_notes: '',
+    payment_reference: ''
+});
+
+// Updated computed properties for new API format
+const currentBalanceColor = computed(() => {
+    const type = userBalanceSummary.value.balance_type;
+    if (type === 'pending') return 'text-red-600'; // User owes money
+    if (type === 'advance') return 'text-green-600'; // User has advance
+    return 'text-gray-600'; // Settled
+});
+
+const balanceStatusBadge = computed(() => {
+    const type = userBalanceSummary.value.balance_type;
+    const badges = {
+        pending: 'bg-red-100 text-red-700 border-red-300',
+        advance: 'bg-green-100 text-green-700 border-green-300',
+        settled: 'bg-gray-100 text-gray-700 border-gray-300'
+    };
+    return badges[type] || badges.settled;
+});
+
+const totalTransactions = computed(() => {
+    return summaryData.value.pending.count +
+        summaryData.value.advance.count +
+        summaryData.value.repayment.count;
+});
+
+// Methods
+const formatCurrency = (value) => {
+    if (!value && value !== 0) return '0.00';
+    return new Intl.NumberFormat('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(Math.abs(value));
+};
+
+const formatDate = (date) => {
+    if (!date) return '-';
+    return new Date(date).toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+};
+
+const getTransactionTypeColor = (type) => {
+    const colors = {
+        pending: 'bg-orange-100 text-orange-700 border-orange-300',
+        advance: 'bg-blue-100 text-blue-700 border-blue-300',
+        repayment: 'bg-purple-100 text-purple-700 border-purple-300'
+    };
+    return colors[type] || colors.pending;
+};
+
+const getAmountTypeColor = (type) => {
+    const colors = {
+        credit: 'bg-red-100 text-red-700 border-red-300',
+        debit: 'bg-green-100 text-green-700 border-green-300'
+    };
+    return colors[type] || colors.credit;
+};
+
+const buildQueryParams = () => {
+    const params = { ...filters.value };
+    if (props.userId) {
+        params.user_id = props.userId;
+    }
+    const filtered = Object.entries(params).filter(([_, v]) => v !== '');
+    return new URLSearchParams(filtered).toString();
+};
+
+const fetchSummary = async () => {
+    try {
+        const params = new URLSearchParams({
+            is_settled: filters.value.is_settled,
+            ...(filters.value.from_date && { from_date: filters.value.from_date }),
+            ...(filters.value.to_date && { to_date: filters.value.to_date })
+        });
+
+        const response = await fetch(`${apiBaseUrl}/payment-balances/summary?${params}`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            summaryData.value = result.data;
+        }
+    } catch (error) {
+        console.error('Error fetching summary:', error);
+        emit('error', { type: 'fetchSummary', error });
+    }
+};
+
+const fetchUserBalanceSummary = async () => {
+    if (!props.userId) return;
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/payment-balances/user/${props.userId}/summary`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            userBalanceSummary.value = result.data;
+        }
+    } catch (error) {
+        console.error('Error fetching user balance summary:', error);
+        emit('error', { type: 'fetchUserBalance', error });
+    }
+};
+
+const fetchBalances = async () => {
+    try {
+        loading.value = true;
+        const params = buildQueryParams();
+        const response = await fetch(`${apiBaseUrl}/payment-balances?${params}`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            balancesData.value = result.data;
+        }
+    } catch (error) {
+        console.error('Error fetching balances:', error);
+        emit('error', { type: 'fetchBalances', error });
+    } finally {
+        loading.value = false;
+    }
+};
+
+const fetchAllData = async () => {
+    await Promise.all([
+        fetchSummary(),
+        props.userId ? fetchUserBalanceSummary() : Promise.resolve(),
+        fetchBalances()
+    ]);
+};
+
+const applyFilters = () => {
+    filters.value.page = 1;
+    fetchAllData();
+};
+
+const resetFilters = () => {
+    filters.value = {
+        page: 1,
+        limit: 10,
+        transaction_type: '',
+        user_id: props.userId || '',
+        is_settled: '',
+        search: '',
+        from_date: '',
+        to_date: '',
+        sort_by: 'transaction_date',
+        sort_order: 'DESC'
+    };
+    applyFilters();
+};
+
+const changePage = (page) => {
+    filters.value.page = page;
+    fetchBalances();
+};
+
+const viewBalanceDetails = (balance) => {
+    selectedBalance.value = balance;
+    showBalanceDetail.value = true;
+};
+
+const closeBalanceDetail = () => {
+    showBalanceDetail.value = false;
+    selectedBalance.value = null;
+};
+
+const openRepaymentModal = () => {
+    repaymentForm.value = {
+        user_id: props.userId || null,
+        repayment_amount: '',
+        repaid_by: null,
+        repayment_notes: '',
+        payment_reference: `REPAY_${Date.now()}`
+    };
+    showRepaymentModal.value = true;
+};
+
+const createRepayment = async () => {
+    try {
+        if (!repaymentForm.value.user_id || !repaymentForm.value.repayment_amount) {
+            alert('User ID and repayment amount are required');
+            return;
+        }
+
+        // Validate repayment amount against pending balance
+        if (userBalanceSummary.value.balance_type !== 'pending') {
+            alert('User has no pending balance to repay');
+            return;
+        }
+
+        if (parseFloat(repaymentForm.value.repayment_amount) > userBalanceSummary.value.balance_amount) {
+            alert(`Repayment amount cannot exceed pending balance of ₹${formatCurrency(userBalanceSummary.value.balance_amount)}`);
+            return;
+        }
+
+        loading.value = true;
+        const response = await fetch(`${apiBaseUrl}/payment-balances/repayment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(repaymentForm.value)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showRepaymentModal.value = false;
+            await fetchAllData();
+            alert('Repayment created successfully');
+        } else {
+            alert(result.message || 'Failed to create repayment');
+        }
+    } catch (error) {
+        console.error('Error creating repayment:', error);
+        alert('Failed to create repayment');
+    } finally {
+        loading.value = false;
+    }
+};
+
+const toggleSection = (section) => {
+    expandedSections.value[section] = !expandedSections.value[section];
+};
+
+const openModal = () => {
+    showModal.value = true;
+    document.body.style.overflow = 'hidden';
+    fetchAllData();
+};
+
+const closeModal = () => {
+    showModal.value = false;
+    document.body.style.overflow = '';
+};
+
+const viewSummaryDetails = (type) => {
+    filters.value.transaction_type = type;
+    filters.value.page = 1;
+    fetchBalances();
+};
+
+// Lifecycle
+onMounted(() => {
+    if (props.userId) {
+        fetchUserBalanceSummary();
+    }
+    fetchSummary();
+});
+
+watch(() => props.userId, (newVal) => {
+    if (newVal) {
+        filters.value.user_id = newVal;
+        fetchUserBalanceSummary();
+        fetchSummary();
+    }
+});
+</script>
+
+<template>
+    <!-- Main Card UI -->
+    <div class="relative bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg p-4 border border-indigo-300">
+        <div class="flex items-center justify-between mb-2">
+            <div class="bg-indigo-500 rounded-lg p-2">
+                <Wallet class="w-4 h-4 text-white" />
+            </div>
+            <DollarSign class="w-4 h-4 text-indigo-600" />
+        </div>
+        <p class="text-xs text-indigo-700 font-medium mb-1">Payment Balance</p>
+        <!-- Main Card UI - Updated for new API format -->
+        <p v-if="userId" :class="currentBalanceColor" class="text-lg font-bold">
+            <!-- Display admin-friendly format: always positive with label -->
+            ₹{{ formatCurrency(userBalanceSummary.balance_amount) }}
+        </p>
+        <p v-else class="text-lg font-bold text-indigo-900">₹{{
+            formatCurrency(summaryData.pending.total_amount) }}</p>
+        <p v-if="userId" class="text-xs text-indigo-600 mt-1">
+            <!-- Show balance type label -->
+            <span v-if="userBalanceSummary.balance_type === 'pending'">User Owes</span>
+            <span v-else-if="userBalanceSummary.balance_type === 'advance'">User Advance</span>
+            <span v-else>Settled</span>
+        </p>
+        <p v-else class="text-xs text-indigo-600 mt-1">{{ totalTransactions }} transactions</p>
+
+        <!-- View Details Button -->
+        <div class="flex items-center justify-between absolute bottom-4 right-4">
+            <button @click="openModal"
+                class="px-3 py-1.5 bg-[#ff5100] text-white text-xs rounded-md hover:bg-[#e64900] transition font-medium flex items-center gap-1.5 shadow-sm hover:shadow-md">
+                <Eye class="w-3.5 h-3.5" />
+                View Details
+            </button>
+        </div>
+    </div>
+
+    <!-- Full Details Modal -->
+    <transition enter-active-class="transition-opacity duration-300"
+        leave-active-class="transition-opacity duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100"
+        leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            @click.self="closeModal">
+            <transition enter-active-class="transition-all duration-300 ease-out"
+                leave-active-class="transition-all duration-200 ease-in" enter-from-class="opacity-0 scale-95"
+                enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
+                leave-to-class="opacity-0 scale-95">
+                <div v-if="showModal"
+                    class="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden flex flex-col">
+                    <!-- Modal Header -->
+                    <div
+                        class="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-[#ff5100] to-[#ff7340]">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-white/20 backdrop-blur-sm rounded-lg p-2">
+                                <Wallet class="w-6 h-6 text-white" />
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-white">Payment Balances</h2>
+                                <p class="text-white/80 text-sm mt-0.5">
+                                    {{ userId ? 'User Specific' : 'All Users' }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <!-- Only show repayment button if user has pending balance -->
+                            <button v-if="userId && userBalanceSummary.balance_type === 'pending'"
+                                @click="openRepaymentModal"
+                                class="px-4 py-2 bg-white text-[#ff5100] rounded-lg hover:bg-gray-100 transition font-medium flex items-center gap-2">
+                                <Plus class="w-5 h-5" />
+                                Create Repayment
+                            </button>
+                            <button @click="closeModal" class="p-2 hover:bg-white/20 rounded-lg transition text-white">
+                                <X class="w-6 h-6" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                        <!-- Loading State -->
+                        <div v-if="loading && balancesData.balances.length === 0"
+                            class="flex justify-center items-center py-12">
+                            <Loader2 class="w-8 h-8 animate-spin text-[#ff5100]" />
+                            <span class="ml-3 text-gray-600 font-medium">Loading payment balances...</span>
+                        </div>
+
+                        <!-- Content -->
+                        <div v-else>
+                            <!-- User Balance Card - Updated for new API format -->
+                            <div v-if="userId" class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <User class="w-5 h-5 text-[#ff5100]" />
+                                    User Balance Summary
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg p-4">
+                                        <p class="text-xs text-indigo-700 mb-1">Current Balance</p>
+                                        <!-- Display absolute value with proper label -->
+                                        <p :class="currentBalanceColor" class="text-2xl font-bold">
+                                            ₹{{ formatCurrency(userBalanceSummary.balance_amount) }}
+                                        </p>
+                                        <span :class="balanceStatusBadge"
+                                            class="inline-block mt-2 px-2 py-1 text-xs rounded-full border font-semibold">
+                                            <!-- Display admin-friendly label -->
+                                            <span v-if="userBalanceSummary.balance_type === 'pending'">User Owes</span>
+                                            <span v-else-if="userBalanceSummary.balance_type === 'advance'">User
+                                                Advance</span>
+                                            <span v-else>Settled</span>
+                                        </span>
+                                        <!-- Optional: Show display message from API -->
+                                        <p class="text-xs text-indigo-600 mt-2">{{ userBalanceSummary.display_message }}
+                                        </p>
+                                    </div>
+                                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4">
+                                        <p class="text-xs text-orange-700 mb-1">Pending</p>
+                                        <p class="text-2xl font-bold text-orange-900">{{
+                                            userBalanceSummary.pending_transactions }}</p>
+                                        <p class="text-xs text-orange-600 mt-2">Transactions</p>
+                                    </div>
+                                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
+                                        <p class="text-xs text-blue-700 mb-1">Advance</p>
+                                        <p class="text-2xl font-bold text-blue-900">{{
+                                            userBalanceSummary.advance_transactions }}</p>
+                                        <p class="text-xs text-blue-600 mt-2">Transactions</p>
+                                    </div>
+                                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
+                                        <p class="text-xs text-purple-700 mb-1">Repayments</p>
+                                        <p class="text-2xl font-bold text-purple-900">{{
+                                            userBalanceSummary.repayment_transactions }}</p>
+                                        <p class="text-xs text-purple-600 mt-2">Transactions</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Filters -->
+                            <div class="bg-white rounded-xl shadow-sm mb-6 border border-gray-200">
+                                <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                                    <h3 class="text-lg font-semibold text-gray-900">Filters</h3>
+                                    <button @click="showFilters = !showFilters"
+                                        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                                        <Filter class="w-4 h-4" />
+                                        {{ showFilters ? 'Hide' : 'Show' }} Filters
+                                    </button>
+                                </div>
+                                <transition enter-active-class="transition-all duration-300"
+                                    leave-active-class="transition-all duration-200"
+                                    enter-from-class="opacity-0 max-h-0" enter-to-class="opacity-100 max-h-96"
+                                    leave-from-class="opacity-100 max-h-96" leave-to-class="opacity-0 max-h-0">
+                                    <div v-show="showFilters" class="p-6 bg-gray-50">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">Transaction
+                                                    Type</label>
+                                                <select v-model="filters.transaction_type"
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5100] focus:border-[#ff5100]">
+                                                    <option value="">All Types</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="advance">Advance</option>
+                                                    <option value="repayment">Repayment</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">Settlement
+                                                    Status</label>
+                                                <select v-model="filters.is_settled"
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5100] focus:border-[#ff5100]">
+                                                    <option value="">All</option>
+                                                    <option value="true">Settled</option>
+                                                    <option value="false">Unsettled</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                                                <input type="text" v-model="filters.search"
+                                                    placeholder="Invoice, Customer..."
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5100] focus:border-[#ff5100]" />
+                                            </div>
+                                            <div v-if="!userId">
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">User
+                                                    ID</label>
+                                                <input type="number" v-model="filters.user_id"
+                                                    placeholder="Filter by user"
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5100] focus:border-[#ff5100]" />
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">Start
+                                                    Date</label>
+                                                <input type="date" v-model="filters.from_date"
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5100] focus:border-[#ff5100]" />
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">End
+                                                    Date</label>
+                                                <input type="date" v-model="filters.to_date"
+                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5100] focus:border-[#ff5100]" />
+                                            </div>
+                                            <div class="lg:col-span-2 flex items-end gap-2">
+                                                <button @click="applyFilters"
+                                                    class="flex-1 px-4 py-2 bg-[#ff5100] text-white rounded-lg hover:bg-[#e64900] transition font-medium">
+                                                    Apply Filters
+                                                </button>
+                                                <button @click="resetFilters"
+                                                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+                                                    title="Reset">
+                                                    <RefreshCw class="w-5 h-5" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </transition>
+                            </div>
+
+                            <!-- Summary Cards (for all users view) -->
+                            <div v-if="!userId" class="mb-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Summary Overview</h3>
+                                    <button @click="toggleSection('summary')" class="text-gray-500 hover:text-gray-700">
+                                        <ChevronDown v-if="expandedSections.summary" class="w-5 h-5" />
+                                        <ChevronUp v-else class="w-5 h-5" />
+                                    </button>
+                                </div>
+                                <transition enter-active-class="transition-all duration-300"
+                                    leave-active-class="transition-all duration-200"
+                                    enter-from-class="opacity-0 -translate-y-2"
+                                    enter-to-class="opacity-100 translate-y-0"
+                                    leave-from-class="opacity-100 translate-y-0"
+                                    leave-to-class="opacity-0 -translate-y-2">
+                                    <div v-show="expandedSections.summary"
+                                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        <!-- Pending -->
+                                        <div @click="viewSummaryDetails('pending')"
+                                            class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200 cursor-pointer hover:shadow-lg transition">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <div class="bg-orange-500 rounded-lg p-2.5">
+                                                    <Clock class="w-5 h-5 text-white" />
+                                                </div>
+                                                <TrendingDown class="w-5 h-5 text-orange-600" />
+                                            </div>
+                                            <p class="text-sm text-orange-700 font-medium mb-1">Pending</p>
+                                            <p class="text-2xl font-bold text-orange-900">₹{{
+                                                formatCurrency(summaryData.pending.total_amount) }}</p>
+                                            <p class="text-xs text-orange-600 mt-2">{{ summaryData.pending.count }}
+                                                transactions</p>
+                                        </div>
+
+                                        <!-- Advance -->
+                                        <div @click="viewSummaryDetails('advance')"
+                                            class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200 cursor-pointer hover:shadow-lg transition">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <div class="bg-blue-500 rounded-lg p-2.5">
+                                                    <TrendingUp class="w-5 h-5 text-white" />
+                                                </div>
+                                                <IndianRupee class="w-5 h-5 text-blue-600" />
+                                            </div>
+                                            <p class="text-sm text-blue-700 font-medium mb-1">Advance</p>
+                                            <p class="text-2xl font-bold text-blue-900">₹{{
+                                                formatCurrency(summaryData.advance.total_amount) }}</p>
+                                            <p class="text-xs text-blue-600 mt-2">{{ summaryData.advance.count }}
+                                                transactions</p>
+                                        </div>
+
+                                        <!-- Repayment -->
+                                        <div @click="viewSummaryDetails('repayment')"
+                                            class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200 cursor-pointer hover:shadow-lg transition">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <div class="bg-purple-500 rounded-lg p-2.5">
+                                                    <DollarSign class="w-5 h-5 text-white" />
+                                                </div>
+                                                <Receipt class="w-5 h-5 text-purple-600" />
+                                            </div>
+                                            <p class="text-sm text-purple-700 font-medium mb-1">Repayments</p>
+                                            <p class="text-2xl font-bold text-purple-900">₹{{
+                                                formatCurrency(summaryData.repayment.total_amount) }}</p>
+                                            <p class="text-xs text-purple-600 mt-2">{{ summaryData.repayment.count }}
+                                                transactions</p>
+                                        </div>
+                                    </div>
+                                </transition>
+                            </div>
+
+                            <!-- Balances List -->
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Transaction History</h3>
+                                    <button @click="toggleSection('balances')"
+                                        class="text-gray-500 hover:text-gray-700">
+                                        <ChevronDown v-if="expandedSections.balances" class="w-5 h-5" />
+                                        <ChevronUp v-else class="w-5 h-5" />
+                                    </button>
+                                </div>
+                                <transition enter-active-class="transition-all duration-300"
+                                    leave-active-class="transition-all duration-200"
+                                    enter-from-class="opacity-0 -translate-y-2"
+                                    enter-to-class="opacity-100 translate-y-0"
+                                    leave-from-class="opacity-100 translate-y-0"
+                                    leave-to-class="opacity-0 -translate-y-2">
+                                    <div v-show="expandedSections.balances">
+                                        <div v-if="balancesData.balances.length === 0"
+                                            class="bg-white rounded-xl p-12 text-center border border-gray-200">
+                                            <Wallet class="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                                            <p class="text-gray-500 text-lg">No payment balances found</p>
+                                        </div>
+                                        <div v-else
+                                            class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                            <div class="overflow-x-auto">
+                                                <table class="min-w-full divide-y divide-gray-200">
+                                                    <thead class="bg-gray-50">
+                                                        <tr>
+                                                            <th
+                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                Transaction</th>
+                                                            <th v-if="!userId"
+                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                User</th>
+                                                            <th
+                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                Invoice/Customer</th>
+                                                            <th
+                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                Amounts</th>
+                                                            <th
+                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                Balance</th>
+                                                            <th
+                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                Type</th>
+                                                            <th
+                                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white divide-y divide-gray-200">
+                                                        <tr v-for="balance in balancesData.balances" :key="balance.id"
+                                                            class="hover:bg-gray-50 transition">
+                                                            <td class="px-6 py-4">
+                                                                <div class="text-sm font-medium text-gray-900">#{{
+                                                                    balance.id }}</div>
+                                                                <div class="text-xs text-gray-500">{{
+                                                                    formatDate(balance.transaction_date) }}</div>
+                                                                <span v-if="balance.is_settled"
+                                                                    class="inline-block mt-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">
+                                                                    Settled
+                                                                </span>
+                                                            </td>
+                                                            <td v-if="!userId" class="px-6 py-4">
+                                                                <div class="text-sm font-medium text-gray-900">User #{{
+                                                                    balance.user_id }}</div>
+                                                                <div class="text-xs text-gray-500">{{
+                                                                    balance.customer_name || 'N/A' }}</div>
+                                                            </td>
+                                                            <td class="px-6 py-4">
+                                                                <div class="text-sm font-medium text-gray-900">{{
+                                                                    balance.proforma_no || balance.quotation_no || 'N/A'
+                                                                }}</div>
+                                                                <div class="text-xs text-gray-500">{{
+                                                                    balance.customer_name || 'Admin Repayment' }}</div>
+                                                            </td>
+                                                            <td class="px-6 py-4">
+                                                                <div class="text-sm space-y-1">
+                                                                    <div v-if="balance.invoice_amount > 0"
+                                                                        class="text-gray-600">
+                                                                        Invoice: ₹{{
+                                                                            formatCurrency(balance.invoice_amount)
+                                                                        }}
+                                                                    </div>
+                                                                    <div v-if="balance.expected_amount > 0"
+                                                                        class="text-blue-600">
+                                                                        Expected: ₹{{
+                                                                            formatCurrency(balance.expected_amount) }}
+                                                                    </div>
+                                                                    <div class="text-green-600 font-semibold">
+                                                                        Paid: ₹{{ formatCurrency(balance.paid_amount) }}
+                                                                    </div>
+                                                                    <!-- <div
+                                                                        :class="balance.amount_type === 'debit' ? 'text-green-600' : 'text-red-600'"
+                                                                        class="font-semibold">
+                                                                        Transaction: {{ balance.amount_type === 'debit' ?
+                                                                            '-' : '+' }}₹{{
+                                                                            formatCurrency(balance.transaction_amount) }}
+                                                                    </div> -->
+                                                                </div>
+                                                            </td>
+                                                            <!-- Updated Balance Display - Use transformed fields from API -->
+                                                            <td class="px-6 py-4">
+                                                                <div class="text-sm space-y-1">
+                                                                    <!-- Previous Balance -->
+                                                                    <div class="text-gray-600">
+                                                                        Previous:
+                                                                        <span
+                                                                            :class="balance.previous_balance_type === 'pending' ? 'text-red-600' : balance.previous_balance_type === 'advance' ? 'text-green-600' : 'text-gray-600'">
+                                                                            ₹{{
+                                                                                formatCurrency(balance.previous_balance_display
+                                                                            || Math.abs(balance.previous_balance)) }}
+                                                                            <span class="text-xs ml-1">
+                                                                                ({{
+                                                                                    (balance.previous_balance_type
+                                                                                        || (balance.previous_balance > 0
+                                                                                            ? 'pending' :
+                                                                                balance.previous_balance < 0
+                                                                                    ? 'advance' : 'settled'
+                                                                                    ))==='pending' ? 'Pending' :
+                                                                                    (balance.previous_balance_type
+                                                                                    ||
+                                                                                    (balance.previous_balance> 0
+                                                                                    ? 'pending' :
+                                                                                    balance.previous_balance < 0
+                                                                                        ? 'advance' : 'settled'
+                                                                                        ))==='advance' ? 'Advance'
+                                                                                        : 'Settled' }}) <!-- ({{
+                                                                                        balance.previous_balance_type==='pending'
+                                                                                        ? 'Owes' :
+                                                                                        balance.previous_balance_type==='advance'
+                                                                                        ? 'Advance' : 'Settled' }}) -->
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                    <!-- Current Balance -->
+                                                                    <div class="font-bold">
+                                                                        Current:
+                                                                        <span
+                                                                            :class="balance.current_balance_type === 'pending' ? 'text-red-600' : balance.current_balance_type === 'advance' ? 'text-green-600' : 'text-gray-600'">
+                                                                            ₹{{
+                                                                                formatCurrency(balance.current_balance_display
+                                                                            || Math.abs(balance.current_balance)) }}
+                                                                            <span class="text-xs ml-1">
+                                                                                ({{ (balance.current_balance_type ||
+                                                                                    (balance.current_balance > 0 ? 'pending'
+                                                                                        : balance.current_balance < 0
+                                                                                    ? 'advance' : 'settled'
+                                                                                    ))==='pending' ? 'Pending' :
+                                                                                    (balance.current_balance_type ||
+                                                                                    (balance.current_balance> 0 ?
+                                                                                    'pending' : balance.current_balance
+                                                                                    < 0 ? 'advance' : 'settled'
+                                                                                        ))==='advance' ? 'Advance'
+                                                                                        : 'Settled' }}) <!-- ({{
+                                                                                        balance.current_balance_type==='pending'
+                                                                                        ? 'Owes' :
+                                                                                        balance.current_balance_type==='advance'
+                                                                                        ? 'Advance' : 'Settled' }}) -->
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                <div class="flex flex-col gap-1">
+                                                                    <span
+                                                                        :class="getTransactionTypeColor(balance.transaction_type)"
+                                                                        class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border">
+                                                                        {{ balance.transaction_type }}
+                                                                    </span>
+                                                                    <!-- <span :class="getAmountTypeColor(balance.amount_type)"
+                                                                        class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border">
+                                                                        {{ balance.amount_type }}
+                                                                    </span> -->
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                <button @click="viewBalanceDetails(balance)"
+                                                                    class="text-[#ff5100] hover:text-[#e64900] transition flex items-center gap-1"
+                                                                    title="View Details">
+                                                                    <Eye class="w-5 h-5" />
+                                                                    <span class="text-sm">View</span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <!-- Pagination -->
+                                            <div v-if="balancesData.pagination.totalPages > 1"
+                                                class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="text-sm text-gray-700">
+                                                        Showing page {{ balancesData.pagination.currentPage }} of {{
+                                                            balancesData.pagination.totalPages }}
+                                                        ({{ balancesData.pagination.totalItems }} total)
+                                                    </div>
+                                                    <div class="flex gap-2">
+                                                        <button
+                                                            @click="changePage(balancesData.pagination.currentPage - 1)"
+                                                            :disabled="balancesData.pagination.currentPage === 1"
+                                                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                                                            Previous
+                                                        </button>
+                                                        <button
+                                                            v-for="page in Math.min(balancesData.pagination.totalPages, 5)"
+                                                            :key="page" @click="changePage(page)"
+                                                            :class="page === balancesData.pagination.currentPage ? 'bg-[#ff5100] text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+                                                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium transition">
+                                                            {{ page }}
+                                                        </button>
+                                                        <button
+                                                            @click="changePage(balancesData.pagination.currentPage + 1)"
+                                                            :disabled="balancesData.pagination.currentPage === balancesData.pagination.totalPages"
+                                                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                                                            Next
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </transition>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </transition>
+
+    <!-- Balance Detail Modal -->
+    <transition enter-active-class="transition-opacity duration-300"
+        leave-active-class="transition-opacity duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100"
+        leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <div v-if="showBalanceDetail"
+            class="fixed inset-0 bg-black bg-opacity-60 z-[60] flex items-center justify-center p-4"
+            @click.self="closeBalanceDetail">
+            <transition enter-active-class="transition-all duration-300 ease-out"
+                leave-active-class="transition-all duration-200 ease-in" enter-from-class="opacity-0 scale-95"
+                enter-to-class="opacity-100 scale-100" leave-from-class="opacity-100 scale-100"
+                leave-to-class="opacity-0 scale-95">
+                <div v-if="showBalanceDetail && selectedBalance"
+                    class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col">
+                    <!-- Header -->
+                    <div
+                        class="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-[#ff5100] to-[#ff7340]">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Balance Transaction Details</h3>
+                            <p class="text-white/80 text-sm">Transaction #{{ selectedBalance.id }}</p>
+                        </div>
+                        <button @click="closeBalanceDetail"
+                            class="p-2 hover:bg-white/20 rounded-lg transition text-white">
+                            <X class="w-6 h-6" />
+                        </button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="flex-1 overflow-y-auto p-6">
+                        <!-- Transaction Summary -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                                    <FileText class="w-4 h-4 text-[#ff5100]" />
+                                    Transaction Information
+                                </h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Transaction ID:</span>
+                                        <span class="text-sm font-medium text-gray-900">#{{ selectedBalance.id }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">User ID:</span>
+                                        <span class="text-sm font-medium text-gray-900">{{ selectedBalance.user_id
+                                        }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Type:</span>
+                                        <span :class="getTransactionTypeColor(selectedBalance.transaction_type)"
+                                            class="text-xs px-2 py-1 rounded-full border font-semibold">
+                                            {{ selectedBalance.transaction_type }}
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Amount Type:</span>
+                                        <span :class="getAmountTypeColor(selectedBalance.amount_type)"
+                                            class="text-xs px-2 py-1 rounded-full border font-semibold">
+                                            {{ selectedBalance.amount_type }}
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Date:</span>
+                                        <span class="text-sm font-medium text-gray-900">{{
+                                            formatDate(selectedBalance.transaction_date) }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Settled:</span>
+                                        <span :class="selectedBalance.is_settled ? 'text-green-600' : 'text-orange-600'"
+                                            class="text-sm font-semibold">
+                                            {{ selectedBalance.is_settled ? 'Yes' : 'No' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                                    <Building2 class="w-4 h-4 text-[#ff5100]" />
+                                    Customer/Invoice Information
+                                </h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Customer:</span>
+                                        <span class="text-sm font-medium text-gray-900">{{
+                                            selectedBalance.customer_name || 'N/A' }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Invoice ID:</span>
+                                        <span class="text-sm font-medium text-gray-900">{{
+                                            selectedBalance.invoice_id || 'N/A' }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Invoice No:</span>
+                                        <span class="text-sm font-medium text-gray-900">{{
+                                            selectedBalance.invoice_number || 'N/A' }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Quotation:</span>
+                                        <span class="text-sm font-medium text-gray-900">{{
+                                            selectedBalance.quotation_no || 'N/A' }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-gray-600">Proforma:</span>
+                                        <span class="text-sm font-medium text-gray-900">{{ selectedBalance.proforma_no
+                                            ||
+                                            'N/A' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Amount Breakdown - Updated balance display -->
+                        <div
+                            class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 mb-6 border border-blue-200">
+                            <h4 class="text-md font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                <IndianRupee class="w-5 h-5 text-[#ff5100]" />
+                                Amount Breakdown
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600 mb-1">Invoice Total</p>
+                                    <p class="text-lg font-bold text-gray-900">₹{{
+                                        formatCurrency(selectedBalance.invoice_total) }}</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600 mb-1">Invoice Amount</p>
+                                    <p class="text-lg font-bold text-gray-900">₹{{
+                                        formatCurrency(selectedBalance.invoice_amount) }}</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600 mb-1">Expected Amount</p>
+                                    <p class="text-lg font-bold text-blue-600">₹{{
+                                        formatCurrency(selectedBalance.expected_amount) }}</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600 mb-1">Paid Amount</p>
+                                    <p class="text-lg font-bold text-green-600">₹{{
+                                        formatCurrency(selectedBalance.paid_amount) }}</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-4 border-t border-blue-200 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600 mb-1">Transaction Amount</p>
+                                    <p :class="selectedBalance.amount_type === 'debit' ? 'text-green-600' : 'text-red-600'"
+                                        class="text-xl font-bold">
+                                        ₹{{ formatCurrency(selectedBalance.transaction_amount) }}
+                                        <span class="text-xs ml-1">({{ selectedBalance.amount_type === 'debit' ? 'Debit'
+                                            : 'Credit' }})</span>
+                                    </p>
+                                </div>
+                                <!-- Previous Balance - Admin Friendly -->
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600 mb-1">Previous Balance</p>
+                                    <p :class="(selectedBalance.previous_balance_type || (selectedBalance.previous_balance > 0 ? 'pending' : selectedBalance.previous_balance < 0 ? 'advance' : 'settled')) === 'pending' ? 'text-red-600' : (selectedBalance.previous_balance_type || (selectedBalance.previous_balance > 0 ? 'pending' : selectedBalance.previous_balance < 0 ? 'advance' : 'settled')) === 'advance' ? 'text-green-600' : 'text-gray-600'"
+                                        class="text-xl font-bold">
+                                        ₹{{ formatCurrency(selectedBalance.previous_balance_display ||
+                                            Math.abs(selectedBalance.previous_balance)) }}
+                                        <span class="text-xs ml-1">
+                                            ({{ (selectedBalance.previous_balance_type ||
+                                                (selectedBalance.previous_balance > 0 ? 'pending' :
+                                                    selectedBalance.previous_balance < 0 ? 'advance' : 'settled')) === 'pending'
+                                                ? 'Pending' : (selectedBalance.previous_balance_type ||
+                                                (selectedBalance.previous_balance> 0 ? 'pending' :
+                                                selectedBalance.previous_balance < 0 ? 'advance' : 'settled'
+                                                    ))==='advance' ? 'Advance' : 'Settled' }}) </span>
+                                    </p>
+                                </div>
+                                <!-- Current Balance - Admin Friendly -->
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600 mb-1">Current Balance</p>
+                                    <p :class="(selectedBalance.current_balance_type || (selectedBalance.current_balance > 0 ? 'pending' : selectedBalance.current_balance < 0 ? 'advance' : 'settled')) === 'pending' ? 'text-red-600' : (selectedBalance.current_balance_type || (selectedBalance.current_balance > 0 ? 'pending' : selectedBalance.current_balance < 0 ? 'advance' : 'settled')) === 'advance' ? 'text-green-600' : 'text-gray-600'"
+                                        class="text-xl font-bold">
+                                        ₹{{ formatCurrency(selectedBalance.current_balance_display ||
+                                            Math.abs(selectedBalance.current_balance)) }}
+                                        <span class="text-xs ml-1">
+                                            ({{ (selectedBalance.current_balance_type ||
+                                                (selectedBalance.current_balance > 0 ? 'pending' :
+                                                    selectedBalance.current_balance < 0 ? 'advance' : 'settled')) === 'pending'
+                                                ? 'Pending' : (selectedBalance.current_balance_type ||
+                                                (selectedBalance.current_balance> 0 ? 'pending' :
+                                                selectedBalance.current_balance < 0 ? 'advance' : 'settled'
+                                                    ))==='advance' ? 'Advance' : 'Settled' }}) </span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- TDS Details -->
+                            <div v-if="selectedBalance.tds_amount > 0"
+                                class="mt-4 pt-4 border-t border-blue-200 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600">TDS Rate</p>
+                                    <p class="text-sm font-semibold text-gray-900">{{ selectedBalance.tds_rate }}%</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600">TDS Amount</p>
+                                    <p class="text-sm font-semibold text-gray-900">₹{{
+                                        formatCurrency(selectedBalance.tds_amount) }}</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600">Service Type</p>
+                                    <p class="text-sm font-semibold text-gray-900">{{ selectedBalance.service_type ||
+                                        'N/A' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Details -->
+                        <div v-if="selectedBalance.payment_method"
+                            class="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
+                            <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                                <CreditCard class="w-4 h-4 text-[#ff5100]" />
+                                Payment Details
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <div>
+                                    <p class="text-xs text-gray-600">Method</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ selectedBalance.payment_method
+                                    }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-600">Mode</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ selectedBalance.payment_mode ||
+                                        'N/A' }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-600">Reference</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ selectedBalance.payment_reference ||
+                                        'N/A' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transaction Reason -->
+                        <div v-if="selectedBalance.transaction_reason"
+                            class="bg-orange-50 rounded-lg p-4 mb-6 border border-orange-200">
+                            <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                <AlertCircle class="w-4 h-4 text-orange-600" />
+                                Transaction Reason
+                            </h4>
+                            <p class="text-sm text-gray-700">{{ selectedBalance.transaction_reason }}</p>
+                        </div>
+
+                        <!-- Repayment Details -->
+                        <div v-if="selectedBalance.transaction_type === 'repayment' && selectedBalance.repaid_by"
+                            class="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                            <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                                <CheckCircle class="w-4 h-4 text-purple-600" />
+                                Repayment Details
+                            </h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-600">Repaid By:</span>
+                                    <span class="text-sm font-medium text-gray-900">User #{{
+                                        selectedBalance.repaid_by }}</span>
+                                </div>
+                                <div v-if="selectedBalance.repayment_notes">
+                                    <p class="text-xs text-gray-600 mb-1">Notes:</p>
+                                    <p class="text-sm text-gray-700">{{ selectedBalance.repayment_notes }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </transition>
+
+    <!-- Repayment Modal -->
+    <transition enter-active-class="transition-opacity duration-300"
+        leave-active-class="transition-opacity duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100"
+        leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <div v-if="showRepaymentModal"
+            class="fixed inset-0 bg-black bg-opacity-60 z-[70] flex items-center justify-center p-4"
+            @click.self="showRepaymentModal = false">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
+                <div class="p-6 border-b border-gray-200 bg-purple-600">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <Plus class="w-6 h-6" />
+                        Create Repayment
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">User ID *</label>
+                        <input type="number" v-model="repaymentForm.user_id" placeholder="Enter user ID" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Repayment Amount *</label>
+                        <input type="number" step="0.01" v-model="repaymentForm.repayment_amount"
+                            placeholder="Enter amount" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Repaid By (Admin User ID)</label>
+                        <input type="number" v-model="repaymentForm.repaid_by" placeholder="Enter admin user ID"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Payment Reference</label>
+                        <input type="text" v-model="repaymentForm.payment_reference" placeholder="Auto-generated"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Repayment Notes</label>
+                        <textarea v-model="repaymentForm.repayment_notes" rows="3"
+                            placeholder="Enter repayment details..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"></textarea>
+                    </div>
+                    <div class="flex gap-3">
+                        <button @click="createRepayment"
+                            :disabled="loading || !repaymentForm.user_id || !repaymentForm.repayment_amount"
+                            class="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                            {{ loading ? 'Creating...' : 'Create Repayment' }}
+                        </button>
+                        <button @click="showRepaymentModal = false" :disabled="loading"
+                            class="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium disabled:opacity-50">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</template>

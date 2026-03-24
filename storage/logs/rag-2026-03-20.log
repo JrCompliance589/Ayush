@@ -1,0 +1,40 @@
+[2026-03-20 10:31:10] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-20 10:31:10] production.INFO: [RAG] Query received {"org_id":2,"query":"complia kya service deta h","top_k":5} 
+[2026-03-20 10:31:10] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-20 10:31:11] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-20 10:31:11] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.0157623291015625,0.0219268798828125,0.04364013671875,0.0038547515869140625,-0.0011577606201171875]} 
+[2026-03-20 10:31:11] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-20 10:31:11] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-20 10:31:11] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-20 10:31:11] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-20 10:31:11] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-20 10:31:58] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-20 10:31:58] production.INFO: [RAG] Query received {"org_id":2,"query":"kaha hai company ye","top_k":5} 
+[2026-03-20 10:31:58] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-20 10:31:59] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-20 10:31:59] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.0171356201171875,-0.0098724365234375,0.0096588134765625,-0.01323699951171875,0.020294189453125]} 
+[2026-03-20 10:31:59] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-20 10:31:59] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-20 10:31:59] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-20 10:31:59] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-20 10:31:59] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-20 10:32:39] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-20 10:32:39] production.INFO: [RAG] Query received {"org_id":2,"query":"chal be nikal","top_k":5} 
+[2026-03-20 10:32:39] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-20 10:32:40] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-20 10:32:40] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.031141164,-0.023011735,-0.007921647,-0.011817539,0.04740002]} 
+[2026-03-20 10:32:40] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-20 10:32:40] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-20 10:32:40] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-20 10:32:40] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-20 10:32:40] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-20 13:28:08] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-20 13:28:08] production.INFO: [RAG] Query received {"org_id":2,"query":"Hi Welcome to Kalaa Academy","top_k":5} 
+[2026-03-20 13:28:08] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-20 13:28:11] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-20 13:28:11] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.00885009765625,-0.0413818359375,-0.0147247314453125,-0.00426483154296875,0.01837158203125]} 
+[2026-03-20 13:28:11] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-20 13:28:11] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-20 13:28:11] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-20 13:28:11] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-20 13:28:11] production.INFO: ========== RAG PIPELINE END (no results) ==========  

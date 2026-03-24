@@ -1,0 +1,654 @@
+[2026-03-24 01:01:28] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.57.186.4"} 
+[2026-03-24 01:01:28] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6316032229690,"order_number":"#F5265.1"} 
+[2026-03-24 01:01:28] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:01:28] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6316032229690,"order_number":"#F5265.1"} 
+[2026-03-24 01:01:28] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7125212037434,"tracking":["27519912567390"]} 
+[2026-03-24 01:01:28] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 01:01:28] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 01:01:28] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7125212037434} 
+[2026-03-24 01:01:29] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7125212037434,"order_number":5265,"customer":"Laiba Khan"} 
+[2026-03-24 01:01:29] production.INFO: [Shopify] Payload enriched with order data {"order_id":7125212037434,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 01:01:29] production.INFO: [Shopify] Phone extracted {"phone":"+918887869097"} 
+[2026-03-24 01:01:29] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+918887869097"} 
+[2026-03-24 01:01:29] production.INFO: [Shopify] Contact resolved {"contact_id":131697,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"56230306-3f28-4566-9c5b-5aa5858e302d"}} 
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Laiba'  
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5265'  
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912567390'  
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 01:01:29] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912567390'  
+[2026-03-24 01:01:29] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 01:01:29] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1988.0,"new_balance":1987.85} 
+[2026-03-24 01:01:29] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"56230306-3f28-4566-9c5b-5aa5858e302d"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Laiba\"},{\"type\":\"text\",\"text\":\"5265\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912567390\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912567390\"}]}]"} 
+[2026-03-24 01:01:31] production.INFO: [Shopify] Message result: sent {"chat_id":195506,"error":null} 
+[2026-03-24 01:01:31] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 01:01:31] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:06:39] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"orders/create","ip":"136.116.89.165"} 
+[2026-03-24 01:06:39] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"orders/create","payload_keys":["id","admin_graphql_api_id","app_id","browser_ip","buyer_accepts_marketing","cancel_reason","cancelled_at","cart_token","checkout_id","checkout_token","client_details","closed_at","confirmation_number","confirmed","contact_email","created_at","currency","current_shipping_price_set","current_subtotal_price","current_subtotal_price_set","current_total_additional_fees_set","current_total_discounts","current_total_discounts_set","current_total_duties_set","current_total_price","current_total_price_set","current_total_tax","current_total_tax_set","customer_locale","device_id","discount_codes","duties_included","email","estimated_taxes","financial_status","fulfillment_status","landing_site","landing_site_ref","location_id","merchant_business_entity_id","merchant_of_record_app_id","name","note","note_attributes","number","order_number","order_status_url","original_total_additional_fees_set","original_total_duties_set","payment_gateway_names","phone","po_number","presentment_currency","processed_at","reference","referring_site","source_identifier","source_name","source_url","subtotal_price","subtotal_price_set","tags","tax_exempt","tax_lines","taxes_included","test","token","total_cash_rounding_payment_adjustment_set","total_cash_rounding_refund_adjustment_set","total_discounts","total_discounts_set","total_line_items_price","total_line_items_price_set","total_outstanding","total_price","total_price_set","total_shipping_price_set","total_tax","total_tax_set","total_tip_received","total_weight","updated_at","user_id","billing_address","customer","discount_applications","fulfillments","line_items","payment_terms","refunds","shipping_address","shipping_lines","returns","line_item_groups"],"order_id":7147989041466,"order_number":5633} 
+[2026-03-24 01:06:40] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"orders/create"} 
+[2026-03-24 01:06:40] production.INFO: Processing webhook [orders/create] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"orders/create","order_id":7147989041466,"order_number":5633} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] === ORDER CONFIRMATION EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7147989041466,"order_number":5633,"customer":"Nafeesa .","phone":"+917348034252","total":"3900.00 INR","items_count":2} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] --- sendNotification START [order_confirmation] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] Found notification template {"notification_template_id":1,"whatsapp_template_id":646,"template_params":{"body":["customer_first_name","order_number","total_price","currency","items_summary"],"buttons":["order_status_url"]}} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] Phone extracted {"phone":"+917348034252"} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+917348034252"} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] Contact resolved {"contact_id":131698,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"81d6d0bf-5ac9-4670-a2b0-b989564ae00f"}} 
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_order_confirmation","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","total_price","currency","items_summary"],"buttons":["order_status_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Nafeesa'  
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5633'  
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] Body var {{3}}: 'total_price' => '3900.00'  
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] Body var {{4}}: 'currency' => 'INR'  
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] Body var {{5}}: 'items_summary' => '1x Monochrome Luxury Lawn Suit with Dupatta | Elegant Printed 3-Piece Set for Women 👑, 1x Elegant Printed Co-Ord Set for Women | Festive & Daily Wear Suit'  
+[2026-03-24 01:06:40] production.DEBUG: [Shopify] Button var [0]: 'order_status_url' => '92273606970/orders/6d99972b4d325c9c56bd152949b4b875/authenticate?key=6a39e3eff4a430613bf4ad8beb9759a5'  
+[2026-03-24 01:06:40] production.INFO: [Shopify] Template content built {"name":"shopify_order_confirmation","components_count":2} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1987.85,"new_balance":1987.7} 
+[2026-03-24 01:06:40] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"81d6d0bf-5ac9-4670-a2b0-b989564ae00f"},"template_name":"shopify_order_confirmation","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Nafeesa\"},{\"type\":\"text\",\"text\":\"5633\"},{\"type\":\"text\",\"text\":\"3900.00\"},{\"type\":\"text\",\"text\":\"INR\"},{\"type\":\"text\",\"text\":\"1x Monochrome Luxury Lawn Suit with Dupatta | Elegant Printed 3-Piece Set for Women \\ud83d\\udc51, 1x Elegant Printed Co-Ord Set for Women | Festive & Daily Wear Suit\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"92273606970\\/orders\\/6d99972b4d325c9c56bd152949b4b875\\/authenticate?key=6a39e3eff4a430613bf4ad8beb9759a5\"}]}]"} 
+[2026-03-24 01:06:42] production.INFO: [Shopify] Message result: sent {"chat_id":195507,"error":null} 
+[2026-03-24 01:06:42] production.INFO: [Shopify] --- sendNotification END [order_confirmation] ---  
+[2026-03-24 01:06:42] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"orders/create"} 
+[2026-03-24 01:09:55] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.16.74.240"} 
+[2026-03-24 01:09:55] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6329549848890,"order_number":"#F5524.1"} 
+[2026-03-24 01:09:56] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:09:56] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6329549848890,"order_number":"#F5524.1"} 
+[2026-03-24 01:09:56] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7140338794810,"tracking":["27519912627671"]} 
+[2026-03-24 01:09:56] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 01:09:56] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 01:09:56] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7140338794810} 
+[2026-03-24 01:09:57] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7140338794810,"order_number":5524,"customer":"tabrez ."} 
+[2026-03-24 01:09:57] production.INFO: [Shopify] Payload enriched with order data {"order_id":7140338794810,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 01:09:57] production.INFO: [Shopify] Phone extracted {"phone":"+918160505151"} 
+[2026-03-24 01:09:57] production.INFO: [Shopify] Contact resolved {"contact_id":131505,"uuid":"83dec04e-9c87-45cb-84d8-f6580ad0ed6b"} 
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'tabrez'  
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5524'  
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912627671'  
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 01:09:57] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912627671'  
+[2026-03-24 01:09:57] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 01:09:57] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1987.7,"new_balance":1987.55} 
+[2026-03-24 01:09:57] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":"83dec04e-9c87-45cb-84d8-f6580ad0ed6b","template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"tabrez\"},{\"type\":\"text\",\"text\":\"5524\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912627671\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912627671\"}]}]"} 
+[2026-03-24 01:09:59] production.INFO: [Shopify] Message result: sent {"chat_id":195508,"error":null} 
+[2026-03-24 01:09:59] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 01:09:59] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:11:51] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"136.112.155.51"} 
+[2026-03-24 01:11:51] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6314559177018,"order_number":"#F5077.1"} 
+[2026-03-24 01:11:52] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:11:52] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6314559177018,"order_number":"#F5077.1"} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7107909058874,"tracking":["27519912560574"]} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7107909058874} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7107909058874,"order_number":5077,"customer":"Monis ali"} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Payload enriched with order data {"order_id":7107909058874,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Phone extracted {"phone":"+918595018066"} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+918595018066"} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Contact resolved {"contact_id":131699,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"c60f851c-56ee-4fac-8fa5-e7e6b2cd979d"}} 
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Monis'  
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5077'  
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912560574'  
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 01:11:52] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912560574'  
+[2026-03-24 01:11:52] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 01:11:52] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1987.55,"new_balance":1987.4} 
+[2026-03-24 01:11:53] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"c60f851c-56ee-4fac-8fa5-e7e6b2cd979d"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Monis\"},{\"type\":\"text\",\"text\":\"5077\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912560574\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912560574\"}]}]"} 
+[2026-03-24 01:11:55] production.INFO: [Shopify] Message result: sent {"chat_id":195509,"error":null} 
+[2026-03-24 01:11:55] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 01:11:55] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:18:55] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"104.198.164.23"} 
+[2026-03-24 01:18:55] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6317646512442,"order_number":"#F5299.1"} 
+[2026-03-24 01:18:56] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:18:56] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6317646512442,"order_number":"#F5299.1"} 
+[2026-03-24 01:18:56] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7126537404730,"tracking":["27519912576486"]} 
+[2026-03-24 01:18:56] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 01:18:56] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 01:18:56] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7126537404730} 
+[2026-03-24 01:18:57] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7126537404730,"order_number":5299,"customer":"Kavita Pandey"} 
+[2026-03-24 01:18:57] production.INFO: [Shopify] Payload enriched with order data {"order_id":7126537404730,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 01:18:57] production.INFO: [Shopify] Phone extracted {"phone":"+919302507902"} 
+[2026-03-24 01:18:57] production.INFO: [Shopify] Contact resolved {"contact_id":131493,"uuid":"e99d9e93-3977-46f8-88c1-772d50290fb3"} 
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Kavita'  
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5299'  
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912576486'  
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 01:18:57] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912576486'  
+[2026-03-24 01:18:57] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 01:18:57] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1987.4,"new_balance":1987.25} 
+[2026-03-24 01:18:57] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":"e99d9e93-3977-46f8-88c1-772d50290fb3","template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Kavita\"},{\"type\":\"text\",\"text\":\"5299\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912576486\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912576486\"}]}]"} 
+[2026-03-24 01:19:00] production.INFO: [Shopify] Message result: sent {"chat_id":195510,"error":null} 
+[2026-03-24 01:19:00] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 01:19:00] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 01:27:15] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"orders/create","ip":"35.192.1.64"} 
+[2026-03-24 01:27:15] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"orders/create","payload_keys":["id","admin_graphql_api_id","app_id","browser_ip","buyer_accepts_marketing","cancel_reason","cancelled_at","cart_token","checkout_id","checkout_token","client_details","closed_at","confirmation_number","confirmed","contact_email","created_at","currency","current_shipping_price_set","current_subtotal_price","current_subtotal_price_set","current_total_additional_fees_set","current_total_discounts","current_total_discounts_set","current_total_duties_set","current_total_price","current_total_price_set","current_total_tax","current_total_tax_set","customer_locale","device_id","discount_codes","duties_included","email","estimated_taxes","financial_status","fulfillment_status","landing_site","landing_site_ref","location_id","merchant_business_entity_id","merchant_of_record_app_id","name","note","note_attributes","number","order_number","order_status_url","original_total_additional_fees_set","original_total_duties_set","payment_gateway_names","phone","po_number","presentment_currency","processed_at","reference","referring_site","source_identifier","source_name","source_url","subtotal_price","subtotal_price_set","tags","tax_exempt","tax_lines","taxes_included","test","token","total_cash_rounding_payment_adjustment_set","total_cash_rounding_refund_adjustment_set","total_discounts","total_discounts_set","total_line_items_price","total_line_items_price_set","total_outstanding","total_price","total_price_set","total_shipping_price_set","total_tax","total_tax_set","total_tip_received","total_weight","updated_at","user_id","billing_address","customer","discount_applications","fulfillments","line_items","payment_terms","refunds","shipping_address","shipping_lines","returns","line_item_groups"],"order_id":7148011389242,"order_number":5634} 
+[2026-03-24 01:27:16] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"orders/create"} 
+[2026-03-24 01:27:16] production.INFO: Processing webhook [orders/create] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"orders/create","order_id":7148011389242,"order_number":5634} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] === ORDER CONFIRMATION EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7148011389242,"order_number":5634,"customer":"Miss Rani","phone":"6009469167","total":"2379.15 INR","items_count":1} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] --- sendNotification START [order_confirmation] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] Found notification template {"notification_template_id":1,"whatsapp_template_id":646,"template_params":{"body":["customer_first_name","order_number","total_price","currency","items_summary"],"buttons":["order_status_url"]}} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] Phone extracted {"phone":"6009469167"} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"6009469167"} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] Contact resolved {"contact_id":131700,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"d5a857ca-5ac4-48a9-ad87-450b3d472c0f"}} 
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_order_confirmation","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","total_price","currency","items_summary"],"buttons":["order_status_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Miss'  
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5634'  
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] Body var {{3}}: 'total_price' => '2379.15'  
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] Body var {{4}}: 'currency' => 'INR'  
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] Body var {{5}}: 'items_summary' => '1x Rose Pink Embroidered Kurti Sharara Set with Dupatta 🌹✨'  
+[2026-03-24 01:27:16] production.DEBUG: [Shopify] Button var [0]: 'order_status_url' => '92273606970/orders/618a9768490eed681049c02f8eac4717/authenticate?key=b5077ab7ebf8909e3d4e32e59e3808ef'  
+[2026-03-24 01:27:16] production.INFO: [Shopify] Template content built {"name":"shopify_order_confirmation","components_count":2} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1987.25,"new_balance":1987.1} 
+[2026-03-24 01:27:16] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"d5a857ca-5ac4-48a9-ad87-450b3d472c0f"},"template_name":"shopify_order_confirmation","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Miss\"},{\"type\":\"text\",\"text\":\"5634\"},{\"type\":\"text\",\"text\":\"2379.15\"},{\"type\":\"text\",\"text\":\"INR\"},{\"type\":\"text\",\"text\":\"1x Rose Pink Embroidered Kurti Sharara Set with Dupatta \\ud83c\\udf39\\u2728\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"92273606970\\/orders\\/618a9768490eed681049c02f8eac4717\\/authenticate?key=b5077ab7ebf8909e3d4e32e59e3808ef\"}]}]"} 
+[2026-03-24 01:27:18] production.INFO: [Shopify] Message result: sent {"chat_id":195513,"error":null} 
+[2026-03-24 01:27:18] production.INFO: [Shopify] --- sendNotification END [order_confirmation] ---  
+[2026-03-24 01:27:18] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"orders/create"} 
+[2026-03-24 02:29:01] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"orders/create","ip":"34.68.156.49"} 
+[2026-03-24 02:29:01] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"orders/create","payload_keys":["id","admin_graphql_api_id","app_id","browser_ip","buyer_accepts_marketing","cancel_reason","cancelled_at","cart_token","checkout_id","checkout_token","client_details","closed_at","confirmation_number","confirmed","contact_email","created_at","currency","current_shipping_price_set","current_subtotal_price","current_subtotal_price_set","current_total_additional_fees_set","current_total_discounts","current_total_discounts_set","current_total_duties_set","current_total_price","current_total_price_set","current_total_tax","current_total_tax_set","customer_locale","device_id","discount_codes","duties_included","email","estimated_taxes","financial_status","fulfillment_status","landing_site","landing_site_ref","location_id","merchant_business_entity_id","merchant_of_record_app_id","name","note","note_attributes","number","order_number","order_status_url","original_total_additional_fees_set","original_total_duties_set","payment_gateway_names","phone","po_number","presentment_currency","processed_at","reference","referring_site","source_identifier","source_name","source_url","subtotal_price","subtotal_price_set","tags","tax_exempt","tax_lines","taxes_included","test","token","total_cash_rounding_payment_adjustment_set","total_cash_rounding_refund_adjustment_set","total_discounts","total_discounts_set","total_line_items_price","total_line_items_price_set","total_outstanding","total_price","total_price_set","total_shipping_price_set","total_tax","total_tax_set","total_tip_received","total_weight","updated_at","user_id","billing_address","customer","discount_applications","fulfillments","line_items","payment_terms","refunds","shipping_address","shipping_lines","returns","line_item_groups"],"order_id":7148085215546,"order_number":5635} 
+[2026-03-24 02:29:01] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"orders/create"} 
+[2026-03-24 02:29:01] production.INFO: Processing webhook [orders/create] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"orders/create","order_id":7148085215546,"order_number":5635} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] === ORDER CONFIRMATION EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7148085215546,"order_number":5635,"customer":"Ali Rukshad","phone":"+919506319637","total":"2899.00 INR","items_count":1} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] --- sendNotification START [order_confirmation] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] Found notification template {"notification_template_id":1,"whatsapp_template_id":646,"template_params":{"body":["customer_first_name","order_number","total_price","currency","items_summary"],"buttons":["order_status_url"]}} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] Phone extracted {"phone":"+919506319637"} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+919506319637"} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] Contact resolved {"contact_id":131703,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"474c5d50-9fd4-477c-9133-6850abd59269"}} 
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_order_confirmation","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","total_price","currency","items_summary"],"buttons":["order_status_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Ali'  
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5635'  
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] Body var {{3}}: 'total_price' => '2899.00'  
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] Body var {{4}}: 'currency' => 'INR'  
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] Body var {{5}}: 'items_summary' => '1x Maroon Elegance Embroidered Kurta Set with Gold Palazzo ❤️✨'  
+[2026-03-24 02:29:01] production.DEBUG: [Shopify] Button var [0]: 'order_status_url' => '92273606970/orders/2ad9f8a74d2593de1497d1dcd07403ae/authenticate?key=4944839bd54b6c3c970ada0b43a127bf'  
+[2026-03-24 02:29:01] production.INFO: [Shopify] Template content built {"name":"shopify_order_confirmation","components_count":2} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1987.1,"new_balance":1986.95} 
+[2026-03-24 02:29:01] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"474c5d50-9fd4-477c-9133-6850abd59269"},"template_name":"shopify_order_confirmation","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Ali\"},{\"type\":\"text\",\"text\":\"5635\"},{\"type\":\"text\",\"text\":\"2899.00\"},{\"type\":\"text\",\"text\":\"INR\"},{\"type\":\"text\",\"text\":\"1x Maroon Elegance Embroidered Kurta Set with Gold Palazzo \\u2764\\ufe0f\\u2728\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"92273606970\\/orders\\/2ad9f8a74d2593de1497d1dcd07403ae\\/authenticate?key=4944839bd54b6c3c970ada0b43a127bf\"}]}]"} 
+[2026-03-24 02:29:03] production.INFO: [Shopify] Message result: sent {"chat_id":195524,"error":null} 
+[2026-03-24 02:29:03] production.INFO: [Shopify] --- sendNotification END [order_confirmation] ---  
+[2026-03-24 02:29:03] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"orders/create"} 
+[2026-03-24 02:59:06] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"35.192.193.86"} 
+[2026-03-24 02:59:06] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6323358794042,"order_number":"#F5421.1"} 
+[2026-03-24 02:59:07] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 02:59:07] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6323358794042,"order_number":"#F5421.1"} 
+[2026-03-24 02:59:07] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7133114171706,"tracking":["27519912599542"]} 
+[2026-03-24 02:59:07] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 02:59:07] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 02:59:07] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7133114171706} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7133114171706,"order_number":5421,"customer":"Md saddam Hussain"} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Payload enriched with order data {"order_id":7133114171706,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Phone extracted {"phone":"9098080772"} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"9098080772"} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Contact resolved {"contact_id":131704,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"59ad06e7-96e4-460a-910c-8c6879cdc451"}} 
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Md saddam'  
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5421'  
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912599542'  
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 02:59:08] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912599542'  
+[2026-03-24 02:59:08] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1986.95,"new_balance":1986.8} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"59ad06e7-96e4-460a-910c-8c6879cdc451"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Md saddam\"},{\"type\":\"text\",\"text\":\"5421\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912599542\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912599542\"}]}]"} 
+[2026-03-24 02:59:08] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.58.15.91"} 
+[2026-03-24 02:59:08] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6323358662970,"order_number":"#F5424.1"} 
+[2026-03-24 02:59:08] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 02:59:08] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6323358662970,"order_number":"#F5424.1"} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7133174432058,"tracking":["27519912599531"]} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 02:59:08] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7133174432058} 
+[2026-03-24 02:59:09] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7133174432058,"order_number":5424,"customer":"Md saddam Hussain"} 
+[2026-03-24 02:59:09] production.INFO: [Shopify] Payload enriched with order data {"order_id":7133174432058,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 02:59:09] production.INFO: [Shopify] Phone extracted {"phone":"9098080772"} 
+[2026-03-24 02:59:09] production.INFO: [Shopify] Contact resolved {"contact_id":131704,"uuid":"59ad06e7-96e4-460a-910c-8c6879cdc451"} 
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Md saddam'  
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5424'  
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912599531'  
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 02:59:09] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912599531'  
+[2026-03-24 02:59:09] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 02:59:09] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1986.8,"new_balance":1986.65} 
+[2026-03-24 02:59:09] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":"59ad06e7-96e4-460a-910c-8c6879cdc451","template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Md saddam\"},{\"type\":\"text\",\"text\":\"5424\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912599531\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912599531\"}]}]"} 
+[2026-03-24 02:59:10] production.INFO: [Shopify] Message result: sent {"chat_id":195527,"error":null} 
+[2026-03-24 02:59:10] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 02:59:10] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 02:59:11] production.INFO: [Shopify] Message result: sent {"chat_id":195528,"error":null} 
+[2026-03-24 02:59:11] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 02:59:11] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:05:43] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"136.119.59.245"} 
+[2026-03-24 03:05:43] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6328301158714,"order_number":"#F5456.1"} 
+[2026-03-24 03:05:43] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:05:43] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6328301158714,"order_number":"#F5456.1"} 
+[2026-03-24 03:05:43] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7134260789562,"tracking":["27519912624591"]} 
+[2026-03-24 03:05:43] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 03:05:43] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 03:05:43] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7134260789562} 
+[2026-03-24 03:05:44] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7134260789562,"order_number":5456,"customer":"Shimmi Sheikh"} 
+[2026-03-24 03:05:44] production.INFO: [Shopify] Payload enriched with order data {"order_id":7134260789562,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 03:05:44] production.INFO: [Shopify] Phone extracted {"phone":"+918305836438"} 
+[2026-03-24 03:05:44] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+918305836438"} 
+[2026-03-24 03:05:44] production.INFO: [Shopify] Contact resolved {"contact_id":131705,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"9fce125e-093c-4d8f-9e8a-54d690ae54af"}} 
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Shimmi'  
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5456'  
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912624591'  
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 03:05:44] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912624591'  
+[2026-03-24 03:05:44] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 03:05:44] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1986.65,"new_balance":1986.5} 
+[2026-03-24 03:05:44] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"9fce125e-093c-4d8f-9e8a-54d690ae54af"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Shimmi\"},{\"type\":\"text\",\"text\":\"5456\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912624591\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912624591\"}]}]"} 
+[2026-03-24 03:05:46] production.INFO: [Shopify] Message result: sent {"chat_id":195529,"error":null} 
+[2026-03-24 03:05:46] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 03:05:46] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:11:40] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.42.43.131"} 
+[2026-03-24 03:11:40] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6329545523514,"order_number":"#F5564.1"} 
+[2026-03-24 03:11:41] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:11:41] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6329545523514,"order_number":"#F5564.1"} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7142448398650,"tracking":["27519912627553"]} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7142448398650} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7142448398650,"order_number":5564,"customer":"Hina sayed"} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Payload enriched with order data {"order_id":7142448398650,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Phone extracted {"phone":"7506556252"} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"7506556252"} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Contact resolved {"contact_id":131706,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"205743cd-90e9-45df-800e-1810de27686f"}} 
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Hina'  
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5564'  
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912627553'  
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 03:11:41] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912627553'  
+[2026-03-24 03:11:41] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1986.5,"new_balance":1986.35} 
+[2026-03-24 03:11:41] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"205743cd-90e9-45df-800e-1810de27686f"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Hina\"},{\"type\":\"text\",\"text\":\"5564\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912627553\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912627553\"}]}]"} 
+[2026-03-24 03:11:44] production.INFO: [Shopify] Message result: sent {"chat_id":195530,"error":null} 
+[2026-03-24 03:11:44] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 03:11:44] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:27:44] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.55.91.41"} 
+[2026-03-24 03:27:44] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6328301257018,"order_number":"#F5526.1"} 
+[2026-03-24 03:27:45] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:27:45] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6328301257018,"order_number":"#F5526.1"} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7140803576122,"tracking":["27519912624602"]} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7140803576122} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7140803576122,"order_number":5526,"customer":"Vinu hajari"} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Payload enriched with order data {"order_id":7140803576122,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Phone extracted {"phone":"+916362527053"} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+916362527053"} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Contact resolved {"contact_id":131707,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"1ebb72bd-1fd7-44ac-8f45-fc6f7dc67a35"}} 
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Vinu'  
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5526'  
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912624602'  
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 03:27:45] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912624602'  
+[2026-03-24 03:27:45] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1986.35,"new_balance":1986.2} 
+[2026-03-24 03:27:45] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"1ebb72bd-1fd7-44ac-8f45-fc6f7dc67a35"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Vinu\"},{\"type\":\"text\",\"text\":\"5526\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912624602\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912624602\"}]}]"} 
+[2026-03-24 03:27:47] production.INFO: [Shopify] Message result: sent {"chat_id":195531,"error":null} 
+[2026-03-24 03:27:47] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 03:27:47] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:35:13] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"104.198.129.55"} 
+[2026-03-24 03:35:13] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6328358502714,"order_number":"#F5533.1"} 
+[2026-03-24 03:35:14] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:35:14] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6328358502714,"order_number":"#F5533.1"} 
+[2026-03-24 03:35:14] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7141118017850,"tracking":["SF3167815282EXR"]} 
+[2026-03-24 03:35:14] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 03:35:14] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 03:35:14] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7141118017850} 
+[2026-03-24 03:35:15] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7141118017850,"order_number":5533,"customer":"Gagandeep Sethi"} 
+[2026-03-24 03:35:15] production.INFO: [Shopify] Payload enriched with order data {"order_id":7141118017850,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 03:35:15] production.INFO: [Shopify] Phone extracted {"phone":"+918448022377"} 
+[2026-03-24 03:35:15] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+918448022377"} 
+[2026-03-24 03:35:15] production.INFO: [Shopify] Contact resolved {"contact_id":131708,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"66a57643-4b1c-4984-ba3d-74c314fa3af1"}} 
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Gagandeep'  
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5533'  
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => '-'  
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => 'SF3167815282EXR'  
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 03:35:15] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'tracking-order-details/SF3167815282EXR'  
+[2026-03-24 03:35:15] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 03:35:15] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1986.2,"new_balance":1986.05} 
+[2026-03-24 03:35:15] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"66a57643-4b1c-4984-ba3d-74c314fa3af1"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Gagandeep\"},{\"type\":\"text\",\"text\":\"5533\"},{\"type\":\"text\",\"text\":\"-\"},{\"type\":\"text\",\"text\":\"SF3167815282EXR\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"tracking-order-details\\/SF3167815282EXR\"}]}]"} 
+[2026-03-24 03:35:17] production.INFO: [Shopify] Message result: sent {"chat_id":195538,"error":null} 
+[2026-03-24 03:35:17] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 03:35:17] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:48:28] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"35.238.235.217"} 
+[2026-03-24 03:48:28] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6323351322938,"order_number":"#F5431.1"} 
+[2026-03-24 03:48:28] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:48:28] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6323351322938,"order_number":"#F5431.1"} 
+[2026-03-24 03:48:28] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7133393355066,"tracking":["80037982150"]} 
+[2026-03-24 03:48:28] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 03:48:28] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 03:48:28] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7133393355066} 
+[2026-03-24 03:48:29] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7133393355066,"order_number":5431,"customer":"Waseem khan"} 
+[2026-03-24 03:48:29] production.INFO: [Shopify] Payload enriched with order data {"order_id":7133393355066,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 03:48:29] production.INFO: [Shopify] Phone extracted {"phone":"7000404089"} 
+[2026-03-24 03:48:29] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"7000404089"} 
+[2026-03-24 03:48:29] production.INFO: [Shopify] Contact resolved {"contact_id":131710,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"51bfd310-2697-45a1-909b-ebeba3a19c90"}} 
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Waseem'  
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5431'  
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'BluedartAirPrime'  
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '80037982150'  
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 03:48:29] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=80037982150'  
+[2026-03-24 03:48:29] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 03:48:29] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1986.05,"new_balance":1985.9} 
+[2026-03-24 03:48:29] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"51bfd310-2697-45a1-909b-ebeba3a19c90"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Waseem\"},{\"type\":\"text\",\"text\":\"5431\"},{\"type\":\"text\",\"text\":\"BluedartAirPrime\"},{\"type\":\"text\",\"text\":\"80037982150\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=80037982150\"}]}]"} 
+[2026-03-24 03:48:31] production.INFO: [Shopify] Message result: sent {"chat_id":195543,"error":null} 
+[2026-03-24 03:48:31] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 03:48:31] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:59:58] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"104.198.129.55"} 
+[2026-03-24 03:59:58] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6328290804026,"order_number":"#F5542.1"} 
+[2026-03-24 03:59:58] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 03:59:58] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6328290804026,"order_number":"#F5542.1"} 
+[2026-03-24 03:59:58] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7141380849978,"tracking":["27519912624543"]} 
+[2026-03-24 03:59:58] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 03:59:58] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 03:59:58] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7141380849978} 
+[2026-03-24 03:59:59] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7141380849978,"order_number":5542,"customer":"md shakil ."} 
+[2026-03-24 03:59:59] production.INFO: [Shopify] Payload enriched with order data {"order_id":7141380849978,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 03:59:59] production.INFO: [Shopify] Phone extracted {"phone":"6299295758"} 
+[2026-03-24 03:59:59] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"6299295758"} 
+[2026-03-24 03:59:59] production.INFO: [Shopify] Contact resolved {"contact_id":131713,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"fdf70505-b514-4f6c-8290-dbd140831f4b"}} 
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'md shakil'  
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5542'  
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912624543'  
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 03:59:59] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912624543'  
+[2026-03-24 03:59:59] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 03:59:59] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1985.9,"new_balance":1985.75} 
+[2026-03-24 03:59:59] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"fdf70505-b514-4f6c-8290-dbd140831f4b"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"md shakil\"},{\"type\":\"text\",\"text\":\"5542\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912624543\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912624543\"}]}]"} 
+[2026-03-24 04:00:01] production.INFO: [Shopify] Message result: sent {"chat_id":195548,"error":null} 
+[2026-03-24 04:00:01] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 04:00:01] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:23:44] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"104.197.140.105"} 
+[2026-03-24 04:23:44] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6329544868154,"order_number":"#F5561.1"} 
+[2026-03-24 04:23:45] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:23:45] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6329544868154,"order_number":"#F5561.1"} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7142420152634,"tracking":["90451183314"]} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7142420152634} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7142420152634,"order_number":5561,"customer":"Tejinder ."} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Payload enriched with order data {"order_id":7142420152634,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Phone extracted {"phone":"7051501313"} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"7051501313"} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Contact resolved {"contact_id":131715,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"eb6d39d3-81d1-4268-a320-9c6cd8e9f900"}} 
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Tejinder'  
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5561'  
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'BluedartAirPrime'  
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '90451183314'  
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 04:23:45] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=90451183314'  
+[2026-03-24 04:23:45] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1985.75,"new_balance":1985.6} 
+[2026-03-24 04:23:45] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"eb6d39d3-81d1-4268-a320-9c6cd8e9f900"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Tejinder\"},{\"type\":\"text\",\"text\":\"5561\"},{\"type\":\"text\",\"text\":\"BluedartAirPrime\"},{\"type\":\"text\",\"text\":\"90451183314\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=90451183314\"}]}]"} 
+[2026-03-24 04:23:48] production.INFO: [Shopify] Message result: sent {"chat_id":195551,"error":null} 
+[2026-03-24 04:23:48] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 04:23:48] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:24:27] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.42.19.123"} 
+[2026-03-24 04:24:27] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6325156643130,"order_number":"#F5469.1"} 
+[2026-03-24 04:24:27] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:24:27] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6325156643130,"order_number":"#F5469.1"} 
+[2026-03-24 04:24:27] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7134970118458,"tracking":["80038752754"]} 
+[2026-03-24 04:24:27] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 04:24:27] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 04:24:27] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7134970118458} 
+[2026-03-24 04:24:28] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7134970118458,"order_number":5469,"customer":"Rahil meer"} 
+[2026-03-24 04:24:28] production.INFO: [Shopify] Payload enriched with order data {"order_id":7134970118458,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 04:24:28] production.INFO: [Shopify] Phone extracted {"phone":"+919568902371"} 
+[2026-03-24 04:24:28] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+919568902371"} 
+[2026-03-24 04:24:28] production.INFO: [Shopify] Contact resolved {"contact_id":131716,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"7b25640a-658e-4c85-baf9-8bc06f654782"}} 
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Rahil'  
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5469'  
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'BluedartAirPrime'  
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '80038752754'  
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 04:24:28] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=80038752754'  
+[2026-03-24 04:24:28] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 04:24:28] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1985.6,"new_balance":1985.45} 
+[2026-03-24 04:24:28] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"7b25640a-658e-4c85-baf9-8bc06f654782"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Rahil\"},{\"type\":\"text\",\"text\":\"5469\"},{\"type\":\"text\",\"text\":\"BluedartAirPrime\"},{\"type\":\"text\",\"text\":\"80038752754\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=80038752754\"}]}]"} 
+[2026-03-24 04:24:30] production.INFO: [Shopify] Message result: sent {"chat_id":195552,"error":null} 
+[2026-03-24 04:24:30] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 04:24:30] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:25:22] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.69.245.75"} 
+[2026-03-24 04:25:22] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6325156643130,"order_number":"#F5469.1"} 
+[2026-03-24 04:25:24] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:25:24] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6325156643130,"order_number":"#F5469.1"} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7134970118458,"tracking":["80038752754"]} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7134970118458} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7134970118458,"order_number":5469,"customer":"Rahil meer"} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Payload enriched with order data {"order_id":7134970118458,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Phone extracted {"phone":"+919568902371"} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Contact resolved {"contact_id":131716,"uuid":"7b25640a-658e-4c85-baf9-8bc06f654782"} 
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Rahil'  
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5469'  
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'BluedartAirPrime'  
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '80038752754'  
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 04:25:24] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=80038752754'  
+[2026-03-24 04:25:24] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1985.45,"new_balance":1985.3} 
+[2026-03-24 04:25:24] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":"7b25640a-658e-4c85-baf9-8bc06f654782","template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Rahil\"},{\"type\":\"text\",\"text\":\"5469\"},{\"type\":\"text\",\"text\":\"BluedartAirPrime\"},{\"type\":\"text\",\"text\":\"80038752754\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=80038752754\"}]}]"} 
+[2026-03-24 04:25:26] production.INFO: [Shopify] Message result: sent {"chat_id":195553,"error":null} 
+[2026-03-24 04:25:26] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 04:25:26] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:41:09] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.69.245.75"} 
+[2026-03-24 04:41:09] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6323351978298,"order_number":"#F5426.1"} 
+[2026-03-24 04:41:10] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:41:10] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6323351978298,"order_number":"#F5426.1"} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7133293412666,"tracking":["80037983351"]} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7133293412666} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7133293412666,"order_number":5426,"customer":"zoya afshan"} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Payload enriched with order data {"order_id":7133293412666,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Phone extracted {"phone":"+918310732988"} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+918310732988"} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Contact resolved {"contact_id":131717,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"ebcfa3a7-040b-4812-9227-6665e414ff5d"}} 
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'zoya'  
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5426'  
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'BluedartAirPrime'  
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '80037983351'  
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 04:41:10] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=80037983351'  
+[2026-03-24 04:41:10] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1985.3,"new_balance":1985.15} 
+[2026-03-24 04:41:10] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"ebcfa3a7-040b-4812-9227-6665e414ff5d"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"zoya\"},{\"type\":\"text\",\"text\":\"5426\"},{\"type\":\"text\",\"text\":\"BluedartAirPrime\"},{\"type\":\"text\",\"text\":\"80037983351\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=80037983351\"}]}]"} 
+[2026-03-24 04:41:13] production.INFO: [Shopify] Message result: sent {"chat_id":195561,"error":null} 
+[2026-03-24 04:41:13] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 04:41:13] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:42:03] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"104.154.218.254"} 
+[2026-03-24 04:42:03] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6325155823930,"order_number":"#F5484.1"} 
+[2026-03-24 04:42:04] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 04:42:04] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6325155823930,"order_number":"#F5484.1"} 
+[2026-03-24 04:42:04] production.INFO: [Shopify] === DELIVERY STATUS EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7135538610490,"status":"delivered"} 
+[2026-03-24 04:42:04] production.INFO: [Shopify] --- sendNotification START [delivery_status] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 04:42:04] production.INFO: [Shopify] Found notification template {"notification_template_id":3,"whatsapp_template_id":649,"template_params":{"body":["customer_first_name","order_number","delivery_status"],"buttons":[]}} 
+[2026-03-24 04:42:04] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7135538610490} 
+[2026-03-24 04:42:05] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7135538610490,"order_number":5484,"customer":"Kulsoom malik"} 
+[2026-03-24 04:42:05] production.INFO: [Shopify] Payload enriched with order data {"order_id":7135538610490,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 04:42:05] production.INFO: [Shopify] Phone extracted {"phone":"7905391292"} 
+[2026-03-24 04:42:05] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"7905391292"} 
+[2026-03-24 04:42:05] production.INFO: [Shopify] Contact resolved {"contact_id":131718,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"8f01af03-54ee-48e6-9c74-0e6f5ad8bd10"}} 
+[2026-03-24 04:42:05] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 04:42:05] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_delivery_status","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","delivery_status"],"buttons":[]},"meta_components":["HEADER","BODY","FOOTER"]} 
+[2026-03-24 04:42:05] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Kulsoom'  
+[2026-03-24 04:42:05] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5484'  
+[2026-03-24 04:42:05] production.DEBUG: [Shopify] Body var {{3}}: 'delivery_status' => 'fulfilled'  
+[2026-03-24 04:42:05] production.INFO: [Shopify] Template content built {"name":"shopify_delivery_status","components_count":1} 
+[2026-03-24 04:42:05] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1985.15,"new_balance":1985.0} 
+[2026-03-24 04:42:05] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"8f01af03-54ee-48e6-9c74-0e6f5ad8bd10"},"template_name":"shopify_delivery_status","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Kulsoom\"},{\"type\":\"text\",\"text\":\"5484\"},{\"type\":\"text\",\"text\":\"fulfilled\"}]}]"} 
+[2026-03-24 04:42:06] production.INFO: [Shopify] Message result: sent {"chat_id":195562,"error":null} 
+[2026-03-24 04:42:06] production.INFO: [Shopify] --- sendNotification END [delivery_status] ---  
+[2026-03-24 04:42:06] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:00:54] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.70.208.63"} 
+[2026-03-24 05:00:54] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6328291393850,"order_number":"#F5537.1"} 
+[2026-03-24 05:00:54] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:00:54] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6328291393850,"order_number":"#F5537.1"} 
+[2026-03-24 05:00:54] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7141317083450,"tracking":["27519912624565"]} 
+[2026-03-24 05:00:54] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 05:00:54] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 05:00:54] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7141317083450} 
+[2026-03-24 05:00:55] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7141317083450,"order_number":5537,"customer":"Aarti Seth"} 
+[2026-03-24 05:00:55] production.INFO: [Shopify] Payload enriched with order data {"order_id":7141317083450,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 05:00:55] production.INFO: [Shopify] Phone extracted {"phone":"+919592735173"} 
+[2026-03-24 05:00:55] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+919592735173"} 
+[2026-03-24 05:00:55] production.INFO: [Shopify] Contact resolved {"contact_id":131723,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"a931e64c-7ec1-4550-935d-1c7585bcd54b"}} 
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Aarti'  
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5537'  
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912624565'  
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 05:00:55] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912624565'  
+[2026-03-24 05:00:55] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 05:00:55] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1985.0,"new_balance":1984.85} 
+[2026-03-24 05:00:55] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"a931e64c-7ec1-4550-935d-1c7585bcd54b"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Aarti\"},{\"type\":\"text\",\"text\":\"5537\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912624565\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912624565\"}]}]"} 
+[2026-03-24 05:00:57] production.INFO: [Shopify] Message result: sent {"chat_id":195583,"error":null} 
+[2026-03-24 05:00:57] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 05:00:57] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:02:38] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"35.184.245.52"} 
+[2026-03-24 05:02:38] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6331505475898,"order_number":"#F5582.1"} 
+[2026-03-24 05:02:39] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:02:39] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6331505475898,"order_number":"#F5582.1"} 
+[2026-03-24 05:02:39] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7144002814266,"tracking":["80041840583"]} 
+[2026-03-24 05:02:39] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 05:02:39] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 05:02:39] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7144002814266} 
+[2026-03-24 05:02:40] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7144002814266,"order_number":5582,"customer":"Kavita Choudhary"} 
+[2026-03-24 05:02:40] production.INFO: [Shopify] Payload enriched with order data {"order_id":7144002814266,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 05:02:40] production.INFO: [Shopify] Phone extracted {"phone":"9521781868"} 
+[2026-03-24 05:02:40] production.INFO: [Shopify] Contact resolved {"contact_id":131591,"uuid":"08899de2-c284-4c40-ae91-d330fb0c5a2d"} 
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Kavita'  
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5582'  
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'BluedartAirPrime'  
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '80041840583'  
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 05:02:40] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=80041840583'  
+[2026-03-24 05:02:40] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 05:02:40] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1984.85,"new_balance":1984.7} 
+[2026-03-24 05:02:40] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":"08899de2-c284-4c40-ae91-d330fb0c5a2d","template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Kavita\"},{\"type\":\"text\",\"text\":\"5582\"},{\"type\":\"text\",\"text\":\"BluedartAirPrime\"},{\"type\":\"text\",\"text\":\"80041840583\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=80041840583\"}]}]"} 
+[2026-03-24 05:02:42] production.INFO: [Shopify] Message result: sent {"chat_id":195584,"error":null} 
+[2026-03-24 05:02:42] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 05:02:42] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:05:31] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.56.247.123"} 
+[2026-03-24 05:05:31] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6316084527418,"order_number":"#F5221.1"} 
+[2026-03-24 05:05:33] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:05:33] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6316084527418,"order_number":"#F5221.1"} 
+[2026-03-24 05:05:33] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7123776045370,"tracking":["80034671780"]} 
+[2026-03-24 05:05:33] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 05:05:33] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 05:05:33] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7123776045370} 
+[2026-03-24 05:05:34] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7123776045370,"order_number":5221,"customer":"Sahil ."} 
+[2026-03-24 05:05:34] production.INFO: [Shopify] Payload enriched with order data {"order_id":7123776045370,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 05:05:34] production.INFO: [Shopify] Phone extracted {"phone":"+916203182441"} 
+[2026-03-24 05:05:34] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"+916203182441"} 
+[2026-03-24 05:05:34] production.INFO: [Shopify] Contact resolved {"contact_id":131725,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"e9cf0f02-9857-4029-ad42-7612b538f992"}} 
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Sahil'  
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5221'  
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'BluedartAirPrime'  
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '80034671780'  
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 05:05:34] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=80034671780'  
+[2026-03-24 05:05:34] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 05:05:34] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1984.7,"new_balance":1984.55} 
+[2026-03-24 05:05:34] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"e9cf0f02-9857-4029-ad42-7612b538f992"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Sahil\"},{\"type\":\"text\",\"text\":\"5221\"},{\"type\":\"text\",\"text\":\"BluedartAirPrime\"},{\"type\":\"text\",\"text\":\"80034671780\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=80034671780\"}]}]"} 
+[2026-03-24 05:05:36] production.INFO: [Shopify] Message result: sent {"chat_id":195585,"error":null} 
+[2026-03-24 05:05:36] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 05:05:36] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:12:48] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.71.156.37"} 
+[2026-03-24 05:12:48] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6316085608762,"order_number":"#F5223.1"} 
+[2026-03-24 05:12:49] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:12:49] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6316085608762,"order_number":"#F5223.1"} 
+[2026-03-24 05:12:49] production.INFO: [Shopify] === SHIPPING UPDATE EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7123798851898,"tracking":["27519912568064"]} 
+[2026-03-24 05:12:49] production.INFO: [Shopify] --- sendNotification START [shipping_update] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 05:12:49] production.INFO: [Shopify] Found notification template {"notification_template_id":2,"whatsapp_template_id":647,"template_params":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]}} 
+[2026-03-24 05:12:49] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7123798851898} 
+[2026-03-24 05:12:50] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7123798851898,"order_number":5223,"customer":"Simran Iqbal"} 
+[2026-03-24 05:12:50] production.INFO: [Shopify] Payload enriched with order data {"order_id":7123798851898,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 05:12:50] production.INFO: [Shopify] Phone extracted {"phone":"9906428601"} 
+[2026-03-24 05:12:50] production.INFO: [Shopify] Contact not found, auto-creating {"phone":"9906428601"} 
+[2026-03-24 05:12:50] production.INFO: [Shopify] Contact resolved {"contact_id":132724,"uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"f0ffbc18-376e-43f1-be1a-7d0348905dfb"}} 
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_shipping_update","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","carrier","tracking_number","estimated_delivery"],"buttons":["tracking_url"]},"meta_components":["HEADER","BODY","FOOTER","BUTTONS"]} 
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Simran'  
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5223'  
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] Body var {{3}}: 'carrier' => 'DelhiveryAir500gms'  
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] Body var {{4}}: 'tracking_number' => '27519912568064'  
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] Body var {{5}}: 'estimated_delivery' => '-'  
+[2026-03-24 05:12:50] production.DEBUG: [Shopify] Button var [0]: 'tracking_url' => 'shipment/tracking?awbno=27519912568064'  
+[2026-03-24 05:12:50] production.INFO: [Shopify] Template content built {"name":"shopify_shipping_update","components_count":2} 
+[2026-03-24 05:12:50] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1984.55,"new_balance":1984.4} 
+[2026-03-24 05:12:50] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":{"Ramsey\\Uuid\\Lazy\\LazyUuidFromString":"f0ffbc18-376e-43f1-be1a-7d0348905dfb"},"template_name":"shopify_shipping_update","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Simran\"},{\"type\":\"text\",\"text\":\"5223\"},{\"type\":\"text\",\"text\":\"DelhiveryAir500gms\"},{\"type\":\"text\",\"text\":\"27519912568064\"},{\"type\":\"text\",\"text\":\"-\"}]},{\"type\":\"button\",\"sub_type\":\"url\",\"index\":0,\"parameters\":[{\"type\":\"text\",\"text\":\"shipment\\/tracking?awbno=27519912568064\"}]}]"} 
+[2026-03-24 05:12:52] production.INFO: [Shopify] Message result: sent {"chat_id":195596,"error":null} 
+[2026-03-24 05:12:52] production.INFO: [Shopify] --- sendNotification END [shipping_update] ---  
+[2026-03-24 05:12:52] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:35:22] production.INFO: ====== WEBHOOK RECEIVED ====== {"store_uuid":"e93e99a2-d6b9-487b-b014-67a59328f029","topic":"fulfillments/update","ip":"34.59.174.113"} 
+[2026-03-24 05:35:22] production.INFO: Dispatching webhook job {"store":"1j17z1-yj.myshopify.com","topic":"fulfillments/update","payload_keys":["id","order_id","status","created_at","service","updated_at","tracking_company","shipment_status","location_id","origin_address","email","destination","line_items","tracking_number","tracking_numbers","tracking_url","tracking_urls","receipt","name","admin_graphql_api_id"],"order_id":6329544868154,"order_number":"#F5561.1"} 
+[2026-03-24 05:35:22] production.INFO: Job started: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 
+[2026-03-24 05:35:22] production.INFO: Processing webhook [fulfillments/update] for store 1j17z1-yj.myshopify.com {"store_id":1,"topic":"fulfillments/update","order_id":6329544868154,"order_number":"#F5561.1"} 
+[2026-03-24 05:35:22] production.INFO: [Shopify] === DELIVERY STATUS EVENT === {"store":"1j17z1-yj.myshopify.com","order_id":7142420152634,"status":"delivered"} 
+[2026-03-24 05:35:22] production.INFO: [Shopify] --- sendNotification START [delivery_status] --- {"store":"1j17z1-yj.myshopify.com"} 
+[2026-03-24 05:35:22] production.INFO: [Shopify] Found notification template {"notification_template_id":3,"whatsapp_template_id":649,"template_params":{"body":["customer_first_name","order_number","delivery_status"],"buttons":[]}} 
+[2026-03-24 05:35:22] production.INFO: [Shopify] Payload missing customer data, fetching order from Shopify API {"order_id":7142420152634} 
+[2026-03-24 05:35:23] production.INFO: [Shopify] Fetched order from Shopify API {"order_id":7142420152634,"order_number":5561,"customer":"Tejinder ."} 
+[2026-03-24 05:35:23] production.INFO: [Shopify] Payload enriched with order data {"order_id":7142420152634,"has_customer":true,"has_shipping_address":true,"has_phone":true} 
+[2026-03-24 05:35:23] production.INFO: [Shopify] Phone extracted {"phone":"7051501313"} 
+[2026-03-24 05:35:23] production.INFO: [Shopify] Contact resolved {"contact_id":131715,"uuid":"eb6d39d3-81d1-4268-a320-9c6cd8e9f900"} 
+[2026-03-24 05:35:23] production.DEBUG: [Shopify] WhatsApp service initialized {"organization_id":91} 
+[2026-03-24 05:35:23] production.DEBUG: [Shopify] Building template content {"template_name":"shopify_delivery_status","template_language":"en_US","param_mapping":{"body":["customer_first_name","order_number","delivery_status"],"buttons":[]},"meta_components":["HEADER","BODY","FOOTER"]} 
+[2026-03-24 05:35:23] production.DEBUG: [Shopify] Body var {{1}}: 'customer_first_name' => 'Tejinder'  
+[2026-03-24 05:35:23] production.DEBUG: [Shopify] Body var {{2}}: 'order_number' => '5561'  
+[2026-03-24 05:35:23] production.DEBUG: [Shopify] Body var {{3}}: 'delivery_status' => 'fulfilled'  
+[2026-03-24 05:35:23] production.INFO: [Shopify] Template content built {"name":"shopify_delivery_status","components_count":1} 
+[2026-03-24 05:35:23] production.INFO: [Shopify] Charge deducted {"user_id":122,"charge":0.15,"category":"utility","old_balance":1984.4,"new_balance":1984.25} 
+[2026-03-24 05:35:23] production.INFO: [Shopify] Sending WhatsApp template message {"contact_uuid":"eb6d39d3-81d1-4268-a320-9c6cd8e9f900","template_name":"shopify_delivery_status","components":"[{\"type\":\"body\",\"parameters\":[{\"type\":\"text\",\"text\":\"Tejinder\"},{\"type\":\"text\",\"text\":\"5561\"},{\"type\":\"text\",\"text\":\"fulfilled\"}]}]"} 
+[2026-03-24 05:35:26] production.INFO: [Shopify] Message result: sent {"chat_id":195630,"error":null} 
+[2026-03-24 05:35:26] production.INFO: [Shopify] --- sendNotification END [delivery_status] ---  
+[2026-03-24 05:35:26] production.INFO: Job completed: ProcessShopifyWebhookJob {"store_id":1,"topic":"fulfillments/update"} 

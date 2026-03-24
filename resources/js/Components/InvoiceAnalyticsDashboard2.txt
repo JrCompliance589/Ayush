@@ -1,0 +1,285 @@
+// CHANGES TO MAKE IN YOUR EXISTING CODE:
+
+// 1. UPDATE DATA STRUCTURE (around line 50-65):
+const dashboardStats = ref({
+    totalInvoiced: 0,           // CHANGED from totalRevenue
+    totalCollected: 0,          // NEW - actual collected amount
+    totalOutstanding: 0,        // NEW - pending amount
+    totalGST: 0,
+    totalDiscount: 0,
+    paymentStatus: {            // CHANGED structure
+        paid: { count: 0, amount: 0 },
+        partial: { count: 0, amount: 0 },      // NEW
+        unpaid: { count: 0, amount: 0 },
+        expired: { count: 0, amount: 0 }       // NEW
+    }
+});
+
+const discountAnalysis = ref({
+    discountedInvoices: 0,      // CHANGED from totalDiscountedInvoices
+    totalDiscount: 0,           // CHANGED from totalDiscountGiven
+    avgDiscountPercent: 0
+    // REMOVED: discountRate
+});
+
+// 2. UPDATE API ENDPOINTS (around line 120-200):
+// Change ALL endpoint URLs:
+// OLD: `${apiBaseUrl}/analytics/dashboard/stats?${params}`
+// NEW: `${apiBaseUrl}/analytics/dashboard-stats?${params}`
+
+// OLD: `${apiBaseUrl}/analytics/revenue/trend?${params}`
+// NEW: `${apiBaseUrl}/analytics/revenue-trend?${params}`
+
+// No change needed for payment-methods, top-customers, and discount-analysis
+
+// 3. UPDATE REVENUE TREND CHART DATA (around line 280):
+// In renderRevenueTrendChart(), change datasets:
+datasets: [
+    {
+        label: 'Collected Revenue',    // CHANGED from 'Total Revenue'
+        data: revenueTrend.value.map(item => item.revenue || 0),
+        borderColor: 'rgb(16, 185, 129)',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        tension: 0.4,
+        fill: true
+    },
+    {
+        label: 'Total Invoiced',       // CHANGED from 'Platform Charge'
+        data: revenueTrend.value.map(item => item.invoiced || 0),  // CHANGED from platformCharge
+        borderColor: 'rgb(59, 130, 246)',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        tension: 0.4,
+        fill: true
+    }
+]
+
+// 4. ADD NEW PAYMENT METHOD CHART (replace platformChargeChart):
+// Remove the old platformChargeChart rendering function completely
+// Add this new function after renderRevenueTrendChart:
+
+const paymentMethodChart = ref(null);  // Add this ref
+
+const renderPaymentMethodChart = () => {
+    if (charts.value.paymentMethod) {
+        try {
+            charts.value.paymentMethod.destroy();
+        } catch (e) {
+            console.warn('Error destroying payment method chart:', e);
+        }
+        charts.value.paymentMethod = null;
+    }
+
+    if (!paymentMethodChart.value || !paymentMethods.value?.length) {
+        return;
+    }
+
+    try {
+        const ctx = paymentMethodChart.value.getContext('2d');
+        if (!ctx) return;
+
+        const colors = [
+            'rgba(59, 130, 246, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(139, 92, 246, 0.8)',
+            'rgba(239, 68, 68, 0.8)'
+        ];
+
+        charts.value.paymentMethod = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: paymentMethods.value.map(item => item.method || 'Unknown'),
+                datasets: [{
+                    label: 'Payment Amount',
+                    data: paymentMethods.value.map(item => item.totalAmount || 0),
+                    backgroundColor: colors,
+                    borderColor: colors.map(c => c.replace('0.8', '1')),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const method = context.label || '';
+                                const value = context.parsed || 0;
+                                const count = paymentMethods.value[context.dataIndex]?.count || 0;
+                                return `${method}: ₹${formatCurrency(value)} (${count} transactions)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error rendering payment method chart:', error);
+    }
+};
+
+// 5. ADD COMPUTED FOR COLLECTION RATE (after methods):
+const collectionRate = () => {
+    if (!dashboardStats.value.totalInvoiced) return '0.00';
+    const rate = (dashboardStats.value.totalCollected / dashboardStats.value.totalInvoiced) * 100;
+    return rate.toFixed(2);
+};
+
+// 6. UPDATE TEMPLATE - Stats Cards Section (around line 350-500):
+// Replace the 4 stat cards with these 6 cards:
+
+<!-- Total Invoiced -->
+<div class="group relative">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition"></div>
+    <div class="relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-300 transition-all duration-300 shadow-md hover:shadow-lg">
+        <div class="flex justify-between items-start mb-4">
+            <div class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl p-3 shadow-md">
+                <FileText class="w-6 h-6 text-white" />
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm font-medium mb-1">Total Invoiced</p>
+        <p class="text-gray-900 text-3xl font-bold mb-3">₹{{ formatCurrency(dashboardStats.totalInvoiced) }}</p>
+        <p class="text-xs text-blue-600">GST: ₹{{ formatCurrency(dashboardStats.totalGST) }}</p>
+    </div>
+</div>
+
+<!-- Total Collected -->
+<div class="group relative">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition"></div>
+    <div class="relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-green-300 transition-all duration-300 shadow-md hover:shadow-lg">
+        <div class="flex justify-between items-start mb-4">
+            <div class="bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl p-3 shadow-md">
+                <IndianRupeeIcon class="w-6 h-6 text-white" />
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm font-medium mb-1">Total Collected</p>
+        <p class="text-gray-900 text-3xl font-bold mb-3 text-green-600">₹{{ formatCurrency(dashboardStats.totalCollected) }}</p>
+        <p class="text-xs text-gray-500">Rate: {{ collectionRate() }}%</p>
+    </div>
+</div>
+
+<!-- Outstanding -->
+<div class="group relative">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-red-500 to-rose-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition"></div>
+    <div class="relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-red-300 transition-all duration-300 shadow-md hover:shadow-lg">
+        <div class="flex justify-between items-start mb-4">
+            <div class="bg-gradient-to-br from-red-500 to-rose-500 rounded-xl p-3 shadow-md">
+                <AlertCircle class="w-6 h-6 text-white" />
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm font-medium mb-1">Outstanding</p>
+        <p class="text-gray-900 text-3xl font-bold mb-3 text-red-600">₹{{ formatCurrency(dashboardStats.totalOutstanding) }}</p>
+        <p class="text-xs text-gray-500">Pending Collection</p>
+    </div>
+</div>
+
+<!-- Paid Invoices -->
+<div class="group relative">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition"></div>
+    <div class="relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-emerald-300 transition-all duration-300 shadow-md hover:shadow-lg">
+        <div class="flex justify-between items-start mb-4">
+            <div class="bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl p-3 shadow-md">
+                <CheckCircle class="w-6 h-6 text-white" />
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm font-medium mb-1">Paid</p>
+        <p class="text-gray-900 text-3xl font-bold mb-3">{{ dashboardStats.paymentStatus.paid.count }}</p>
+        <p class="text-xs text-emerald-600">₹{{ formatCurrency(dashboardStats.paymentStatus.paid.amount) }}</p>
+    </div>
+</div>
+
+<!-- Partial Payments -->
+<div class="group relative">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition"></div>
+    <div class="relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-300 transition-all duration-300 shadow-md hover:shadow-lg">
+        <div class="flex justify-between items-start mb-4">
+            <div class="bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl p-3 shadow-md">
+                <AlertCircle class="w-6 h-6 text-white" />
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm font-medium mb-1">Partial</p>
+        <p class="text-gray-900 text-3xl font-bold mb-3">{{ dashboardStats.paymentStatus.partial.count }}</p>
+        <p class="text-xs text-orange-600">₹{{ formatCurrency(dashboardStats.paymentStatus.partial.amount) }}</p>
+    </div>
+</div>
+
+<!-- Unpaid Invoices -->
+<div class="group relative">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-red-500 to-rose-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition"></div>
+    <div class="relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-red-300 transition-all duration-300 shadow-md hover:shadow-lg">
+        <div class="flex justify-between items-start mb-4">
+            <div class="bg-gradient-to-br from-red-500 to-rose-500 rounded-xl p-3 shadow-md">
+                <AlertCircle class="w-6 h-6 text-white" />
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm font-medium mb-1">Unpaid</p>
+        <p class="text-gray-900 text-3xl font-bold mb-3">{{ dashboardStats.paymentStatus.unpaid.count }}</p>
+        <p class="text-xs text-red-600">₹{{ formatCurrency(dashboardStats.paymentStatus.unpaid.amount) }}</p>
+    </div>
+</div>
+
+// 7. REPLACE Platform Charge Chart with Payment Method Chart:
+// Find the "Platform Charge Distribution" section and replace it with:
+
+<!-- Payment Method Distribution -->
+<div class="group relative">
+    <div class="relative h-full bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Payment Method Distribution</h3>
+        <div v-if="paymentMethods.length === 0" class="text-center text-gray-500 py-12">
+            <CreditCard class="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            <p>No payment method data available</p>
+        </div>
+        <div v-else style="position: relative; height: 300px; width: 100%;">
+            <canvas ref="paymentMethodChart"></canvas>
+        </div>
+    </div>
+</div>
+
+// 8. UPDATE Top Customers Table (around line 550):
+// Change the data bindings:
+<td class="px-4 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+    ₹{{ formatCurrency(customer.revenue) }}  <!-- CHANGED from totalRevenue -->
+</td>
+
+// 9. UPDATE Discount Analysis Cards (around line 580):
+<p class="text-2xl font-bold text-purple-900 mt-1">
+    {{ discountAnalysis.discountedInvoices }}  <!-- CHANGED from totalDiscountedInvoices -->
+</p>
+
+<p class="text-2xl font-bold text-purple-900 mt-1">
+    ₹{{ formatCurrency(discountAnalysis.totalDiscount) }}  <!-- CHANGED from totalDiscountGiven -->
+</p>
+
+// Remove the "Discount Rate" card completely
+
+// 10. UPDATE refs in template (add this):
+<canvas ref="paymentMethodChart"></canvas>
+
+// 11. UPDATE charts ref object:
+const charts = ref({
+    revenueTrend: null,
+    paymentMethod: null  // CHANGED from platformCharge
+});
+
+// 12. UPDATE destroyCharts function:
+const destroyCharts = () => {
+    if (charts.value.revenueTrend) {
+        try { charts.value.revenueTrend.destroy(); } catch (e) {}
+        charts.value.revenueTrend = null;
+    }
+    if (charts.value.paymentMethod) {  // CHANGED from platformCharge
+        try { charts.value.paymentMethod.destroy(); } catch (e) {}
+        charts.value.paymentMethod = null;
+    }
+};
+
+// 13. UPDATE renderCharts function:
+const renderCharts = async () => {
+    await nextTick();
+    setTimeout(() => {
+        if (revenueTrend.value?.length) renderRevenueTrendChart();
+        if (paymentMethods.value?.length) renderPaymentMethodChart();  // CHANGED
+    }, 50);
+};

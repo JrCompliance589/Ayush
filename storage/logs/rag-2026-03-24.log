@@ -1,0 +1,6 @@
+[2026-03-24 08:59:53] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 08:59:53] production.INFO: [RAG] Query received {"org_id":2,"query":"hi","top_k":5} 
+[2026-03-24 08:59:53] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 09:00:20] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 09:00:20] production.INFO: [RAG] Query received {"org_id":2,"query":"hi","top_k":5} 
+[2026-03-24 09:00:20] production.INFO: [RAG] Generating query embedding via OpenAI...  

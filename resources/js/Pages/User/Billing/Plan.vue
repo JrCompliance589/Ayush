@@ -56,6 +56,7 @@
                       </span>
                       <span class="text-sm" :class="form.plan === item.id ? 'text-white/80' : 'text-gray-500'">
                         <span v-if="item.period === 'monthly'">/ {{ $t("month") }}</span>
+                        <span v-if="item.period === 'quarterly'">/ {{ $t("quarter") }}</span>
                         <span v-if="item.period === 'yearly'">/ {{ $t("year") }}</span>
                       </span>
                     </div>

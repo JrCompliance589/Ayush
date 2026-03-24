@@ -653,6 +653,7 @@ const statusOptions = ref([
 
 const periodOptions = ref([
     { value: 'monthly', label: trans('Monthly') },
+    { value: 'quarterly', label: trans('Quarterly (3 Months)') },
     { value: 'yearly', label: trans('Yearly') },
     { value: 'lifetime', label: trans('Lifetime (15 Years)') }
 ]);

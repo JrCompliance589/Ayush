@@ -233,6 +233,7 @@ class SubscriptionService
             $validUntil = match($plan->period) {
                 'lifetime' => date('Y-m-d H:i:s', strtotime('+15 years')),
                 'yearly' => date('Y-m-d H:i:s', strtotime('+1 year')),
+                'quarterly' => date('Y-m-d H:i:s', strtotime('+3 months')),
                 default => date('Y-m-d H:i:s', strtotime('+1 month')),
             };
 

@@ -102,12 +102,17 @@ class StripeService
             ]);
 
             $currency = Setting::where('key', 'currency')->value('value') ?? 'usd';
-            $interval = $plan->period == 'monthly' ? 'month' : 'year';
+            $interval = match($plan->period) {
+                'yearly' => 'year',
+                'quarterly' => 'month',
+                default => 'month',
+            };
+            $intervalCount = $plan->period == 'quarterly' ? 3 : 1;
 
             $price = $this->stripe->prices->create([
                 'currency' => $currency,
                 'unit_amount' => $plan->price * 100,
-                'recurring' => ['interval' => $interval],
+                'recurring' => ['interval' => $interval, 'interval_count' => $intervalCount],
                 'product' => $product->id,
             ]);
             
@@ -132,7 +137,12 @@ class StripeService
 
             // Get currency and interval settings
             $currency = Setting::where('key', 'currency')->value('value') ?? 'usd';
-            $interval = $plan->period == 'monthly' ? 'month' : 'year';
+            $interval = match($plan->period) {
+                'yearly' => 'year',
+                'quarterly' => 'month',
+                default => 'month',
+            };
+            $intervalCount = $plan->period == 'quarterly' ? 3 : 1;
 
             // Retrieve product and price IDs from metadata
             $productId = $metadata['stripe']['product']['id'] ?? null;
@@ -170,7 +180,7 @@ class StripeService
             $price = $this->stripe->prices->create([
                 'currency' => $currency,
                 'unit_amount' => $plan->price * 100,  // Stripe expects amount in the smallest currency unit
-                'recurring' => isset($interval) ? ['interval' => $interval] : null,
+                'recurring' => isset($interval) ? ['interval' => $interval, 'interval_count' => $intervalCount] : null,
                 'product' => $productId,
             ]);
             
@@ -196,7 +206,12 @@ class StripeService
 
             // Get currency and interval settings
             $currency = Setting::where('key', 'currency')->value('value') ?? 'usd';
-            $interval = $plan->period == 'monthly' ? 'month' : 'year';
+            $interval = match($plan->period) {
+                'yearly' => 'year',
+                'quarterly' => 'month',
+                default => 'month',
+            };
+            $intervalCount = $plan->period == 'quarterly' ? 3 : 1;
 
             // Retrieve product and price IDs from metadata
             $productId = $metadata['stripe']['product']['id'] ?? null;
@@ -244,7 +259,7 @@ class StripeService
                 $price = $this->stripe->prices->create([
                     'currency' => $currency,
                     'unit_amount' => $totalAmount,
-                    'recurring' => isset($interval) ? ['interval' => $interval] : null,
+                    'recurring' => isset($interval) ? ['interval' => $interval, 'interval_count' => $intervalCount] : null,
                     'product' => $productId,
                 ]);
                 

@@ -416,6 +416,8 @@
                                         {{ item.price }}
                                         <sub v-if="item.period === 'monthly'"
                                             class="text-gray-500 text-sm font-normal">{{ $t('Per month') }}</sub>
+                                        <sub v-if="item.period === 'quarterly'"
+                                            class="text-gray-500 text-sm font-normal">{{ $t('Per quarter') }}</sub>
                                         <sub v-if="item.period === 'yearly'"
                                             class="text-gray-500 text-sm font-normal">{{ $t('Per year') }}</sub>
                                     </h1>

@@ -1,0 +1,297 @@
+[2026-03-25 06:35:07] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:35:07] production.INFO: [RAG] Query received {"org_id":87,"query":"hi","top_k":5} 
+[2026-03-25 06:35:07] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:35:08] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:35:08] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.00374603271484375,-0.0191650390625,0.01221466064453125,0.032745361328125,0.016204833984375]} 
+[2026-03-25 06:35:08] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:35:08] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:35:08] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:35:08] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-25 06:35:08] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-25 06:35:49] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:35:49] production.INFO: [RAG] Query received {"org_id":87,"query":"do i need to pay in andvance?","top_k":5} 
+[2026-03-25 06:35:49] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:35:50] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:35:50] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.003060169,-0.011478409,0.030268662,-0.010087087,-0.006856703]} 
+[2026-03-25 06:35:50] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:35:50] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:35:50] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:35:50] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-25 06:35:50] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-25 06:36:32] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:36:32] production.INFO: [RAG] Query received {"org_id":87,"query":"what services you offer?","top_k":5} 
+[2026-03-25 06:36:32] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:36:33] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:36:33] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.03351536,-0.028045535,0.042888053,-0.0046500745,-0.038303267]} 
+[2026-03-25 06:36:33] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:36:33] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:36:33] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:36:33] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-25 06:36:33] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-25 06:47:59] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:47:59] production.INFO: [RAG] Query received {"org_id":87,"query":"hi","top_k":5} 
+[2026-03-25 06:47:59] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:48:00] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:48:00] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.00374603271484375,-0.0191650390625,0.01221466064453125,0.032745361328125,0.016204833984375]} 
+[2026-03-25 06:48:00] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:48:00] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.114261396,"doc_id":17,"chunk_index":0},{"score":0.103209436,"doc_id":17,"chunk_index":1}]} 
+[2026-03-25 06:48:00] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:48:00] production.INFO: [SIMILARITY #1] score=0.114261396 | doc_id=17 | chunk_index=0 {"cosine_score":0.114261396,"document_id":17,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service"} 
+[2026-03-25 06:48:00] production.INFO: [SIMILARITY #2] score=0.103209436 | doc_id=17 | chunk_index=1 {"cosine_score":0.103209436,"document_id":17,"chunk_index":1,"matched_text":"Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport D"} 
+[2026-03-25 06:48:00] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:48:00] production.INFO: [RAG] Context built from 2 chunks {"context_length":4309,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service? A: Lux Taxi Service, also known as Lux Taxi Bangkok, is a private taxi transfer service in Thailand established in 2010 with more than 100,000 happy customers. Q: What services does Lux Ta..."} 
+[2026-03-25 06:48:00] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 06:48:15] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:48:15] production.INFO: [RAG] Query received {"org_id":87,"query":"what services you offer?","top_k":5} 
+[2026-03-25 06:48:15] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:48:16] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:48:16] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.033477783203125,-0.0280609130859375,0.0428466796875,-0.00466156005859375,-0.038299560546875]} 
+[2026-03-25 06:48:16] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:48:16] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.22679827,"doc_id":17,"chunk_index":1},{"score":0.21712464,"doc_id":17,"chunk_index":0}]} 
+[2026-03-25 06:48:16] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:48:16] production.INFO: [SIMILARITY #1] score=0.22679827 | doc_id=17 | chunk_index=1 {"cosine_score":0.22679827,"document_id":17,"chunk_index":1,"matched_text":"Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport D"} 
+[2026-03-25 06:48:16] production.INFO: [SIMILARITY #2] score=0.21712464 | doc_id=17 | chunk_index=0 {"cosine_score":0.21712464,"document_id":17,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service"} 
+[2026-03-25 06:48:16] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:48:16] production.INFO: [RAG] Context built from 2 chunks {"context_length":4309,"context_preview":"[Chunk 1]
+Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: Sedan 700 THB, SUV 800 THB, Fortuner 900 THB, Van 1100 THB. Q: Are the taxi prices all inclusive? A: Yes. All prices are all inclusive. Q: Do customers need to..."} 
+[2026-03-25 06:48:16] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 06:52:38] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:52:38] production.INFO: [RAG] Query received {"org_id":87,"query":"hi","top_k":5} 
+[2026-03-25 06:52:38] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:52:39] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:52:39] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.0037663814,-0.01915245,0.012180638,0.032823615,0.01621948]} 
+[2026-03-25 06:52:39] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:52:39] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.11422829,"doc_id":17,"chunk_index":0},{"score":0.103168935,"doc_id":17,"chunk_index":1}]} 
+[2026-03-25 06:52:39] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:52:39] production.INFO: [SIMILARITY #1] score=0.11422829 | doc_id=17 | chunk_index=0 {"cosine_score":0.11422829,"document_id":17,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service"} 
+[2026-03-25 06:52:39] production.INFO: [SIMILARITY #2] score=0.103168935 | doc_id=17 | chunk_index=1 {"cosine_score":0.103168935,"document_id":17,"chunk_index":1,"matched_text":"Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport D"} 
+[2026-03-25 06:52:39] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:52:39] production.INFO: [RAG] Context built from 2 chunks {"context_length":4309,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service? A: Lux Taxi Service, also known as Lux Taxi Bangkok, is a private taxi transfer service in Thailand established in 2010 with more than 100,000 happy customers. Q: What services does Lux Ta..."} 
+[2026-03-25 06:52:39] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 06:53:34] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:53:34] production.INFO: [RAG] Query received {"org_id":87,"query":"which vehicles is available for 5 passengers","top_k":5} 
+[2026-03-25 06:53:34] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:53:34] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:53:34] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.033716816,-0.007922926,-0.0015747226,-0.033453815,-0.03929245]} 
+[2026-03-25 06:53:34] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:53:34] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.34957248,"doc_id":17,"chunk_index":0},{"score":0.29582497,"doc_id":17,"chunk_index":1}]} 
+[2026-03-25 06:53:34] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:53:34] production.INFO: [SIMILARITY #1] score=0.34957248 | doc_id=17 | chunk_index=0 {"cosine_score":0.34957248,"document_id":17,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service"} 
+[2026-03-25 06:53:34] production.INFO: [SIMILARITY #2] score=0.29582497 | doc_id=17 | chunk_index=1 {"cosine_score":0.29582497,"document_id":17,"chunk_index":1,"matched_text":"Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport D"} 
+[2026-03-25 06:53:34] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:53:34] production.INFO: [RAG] Context built from 2 chunks {"context_length":4309,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service? A: Lux Taxi Service, also known as Lux Taxi Bangkok, is a private taxi transfer service in Thailand established in 2010 with more than 100,000 happy customers. Q: What services does Lux Ta..."} 
+[2026-03-25 06:53:34] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 06:54:35] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:54:35] production.INFO: [RAG] Query received {"org_id":87,"query":"do i need to pay in andvance?","top_k":5} 
+[2026-03-25 06:54:35] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:54:36] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:54:36] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.003017425537109375,-0.01160430908203125,0.0302734375,-0.0100250244140625,-0.006847381591796875]} 
+[2026-03-25 06:54:36] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:54:36] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.2147578,"doc_id":17,"chunk_index":1},{"score":0.15944743,"doc_id":17,"chunk_index":0}]} 
+[2026-03-25 06:54:36] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:54:36] production.INFO: [SIMILARITY #1] score=0.2147578 | doc_id=17 | chunk_index=1 {"cosine_score":0.2147578,"document_id":17,"chunk_index":1,"matched_text":"Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport D"} 
+[2026-03-25 06:54:36] production.INFO: [SIMILARITY #2] score=0.15944743 | doc_id=17 | chunk_index=0 {"cosine_score":0.15944743,"document_id":17,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service"} 
+[2026-03-25 06:54:36] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:54:36] production.INFO: [RAG] Context built from 2 chunks {"context_length":4309,"context_preview":"[Chunk 1]
+Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: Sedan 700 THB, SUV 800 THB, Fortuner 900 THB, Van 1100 THB. Q: Are the taxi prices all inclusive? A: Yes. All prices are all inclusive. Q: Do customers need to..."} 
+[2026-03-25 06:54:36] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 06:55:06] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 06:55:06] production.INFO: [RAG] Query received {"org_id":87,"query":"who is waruni","top_k":5} 
+[2026-03-25 06:55:06] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 06:55:07] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 06:55:07] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.014616923,-0.07291203,-0.0059443484,-0.0103354,-0.052254505]} 
+[2026-03-25 06:55:07] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":2} 
+[2026-03-25 06:55:07] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.21186773,"doc_id":17,"chunk_index":0},{"score":0.1106662,"doc_id":17,"chunk_index":1}]} 
+[2026-03-25 06:55:07] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 06:55:07] production.INFO: [SIMILARITY #1] score=0.21186773 | doc_id=17 | chunk_index=0 {"cosine_score":0.21186773,"document_id":17,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service"} 
+[2026-03-25 06:55:07] production.INFO: [SIMILARITY #2] score=0.1106662 | doc_id=17 | chunk_index=1 {"cosine_score":0.1106662,"document_id":17,"chunk_index":1,"matched_text":"Q: What is the taxi price from Bangkok hotel to Pattaya? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price from Pattaya to Bangkok hotel? A: Sedan 1350 THB, SUV 1500 THB, Fortuner 1600 THB, Van 2100 THB. Q: What is the taxi price between Don Mueang Airport D"} 
+[2026-03-25 06:55:07] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 06:55:07] production.INFO: [RAG] Context built from 2 chunks {"context_length":4309,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Q&A Format Q: On message 'Hi/Hello'? A: Hello, My name is Waruni and I’m here to help you get the best taxi price ■ We are Lux Taxi Service since 2010 with more than 100,000 happy customers ■ Please let me know how I can assist you today. Q: What is Lux Taxi Service? A: Lux Taxi Service, also known as Lux Taxi Bangkok, is a private taxi transfer service in Thailand established in 2010 with more than 100,000 happy customers. Q: What services does Lux Ta..."} 
+[2026-03-25 06:55:07] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:02:48] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/delete {"document_id":17,"filter":{"filter":{"must":[{"key":"document_id","match":{"value":17}}]}}} 
+[2026-03-25 07:02:48] production.INFO: [QDRANT RESPONSE] DELETE points {"status":200,"body":{"result":{"operation_id":18,"status":"acknowledged"},"status":"ok","time":0.00034491}} 
+[2026-03-25 07:03:28] production.INFO: [QDRANT REQUEST] GET /collections/org_87_documents — Check if collection exists  
+[2026-03-25 07:03:28] production.INFO: [QDRANT RESPONSE] GET /collections/org_87_documents {"status":200,"exists":true} 
+[2026-03-25 07:03:28] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/delete {"document_id":18,"filter":{"filter":{"must":[{"key":"document_id","match":{"value":18}}]}}} 
+[2026-03-25 07:03:28] production.INFO: [QDRANT RESPONSE] DELETE points {"status":200,"body":{"result":{"operation_id":19,"status":"acknowledged"},"status":"ok","time":0.000255588}} 
+[2026-03-25 07:03:28] production.INFO: [QDRANT] Upserting 4 points for doc 18 {"collection":"org_87_documents","chunks_preview":[{"id":1800000,"chunk_index":0,"text_preview":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"H..."},{"id":1800001,"chunk_index":1,"text_preview":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehic..."},{"id":1800002,"chunk_index":2,"text_preview":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is ..."},{"id":1800003,"chunk_index":3,"text_preview":"confirm your booking for you? 😊”..."}]} 
+[2026-03-25 07:03:28] production.INFO: [QDRANT REQUEST] PUT /collections/org_87_documents/points — Batch 1, 4 points  
+[2026-03-25 07:03:28] production.INFO: [QDRANT RESPONSE] PUT /collections/org_87_documents/points {"status":200,"body":{"result":{"operation_id":20,"status":"acknowledged"},"status":"ok","time":0.00036385}} 
+[2026-03-25 07:03:28] production.INFO: [QDRANT] Indexing complete: doc 18, 4 chunks, org 87  
+[2026-03-25 07:04:13] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:04:13] production.INFO: [RAG] Query received {"org_id":87,"query":"hi","top_k":5} 
+[2026-03-25 07:04:13] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:04:14] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:04:14] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.0037663814,-0.01915245,0.012180638,0.032823615,0.01621948]} 
+[2026-03-25 07:04:14] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:04:14] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.23836921,"doc_id":18,"chunk_index":3},{"score":0.15038368,"doc_id":18,"chunk_index":0},{"score":0.14005394,"doc_id":18,"chunk_index":2},{"score":0.079193324,"doc_id":18,"chunk_index":1}]} 
+[2026-03-25 07:04:14] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:04:14] production.INFO: [SIMILARITY #1] score=0.23836921 | doc_id=18 | chunk_index=3 {"cosine_score":0.23836921,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:04:14] production.INFO: [SIMILARITY #2] score=0.15038368 | doc_id=18 | chunk_index=0 {"cosine_score":0.15038368,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:04:14] production.INFO: [SIMILARITY #3] score=0.14005394 | doc_id=18 | chunk_index=2 {"cosine_score":0.14005394,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:04:14] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:04:14] production.INFO: [RAG] Context built from 3 chunks {"context_length":5006,"context_preview":"[Chunk 1]
+confirm your booking for you? 😊”
+
+[Chunk 2]
+Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 happy customers. I would be happy to assist you with taxi prices or bookings today. Please let me know your pickup location, drop location, travel da..."} 
+[2026-03-25 07:04:14] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:06:53] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:06:53] production.INFO: [RAG] Query received {"org_id":87,"query":"which vehicles is available for 5 passengers","top_k":5} 
+[2026-03-25 07:06:53] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:06:55] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:06:55] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.033782958984375,-0.00792694091796875,-0.0015859603881835938,-0.033477783203125,-0.039337158203125]} 
+[2026-03-25 07:06:55] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:06:55] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.44038904,"doc_id":18,"chunk_index":0},{"score":0.430375,"doc_id":18,"chunk_index":1},{"score":0.33692762,"doc_id":18,"chunk_index":2},{"score":0.24279419,"doc_id":18,"chunk_index":3}]} 
+[2026-03-25 07:06:55] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:06:55] production.INFO: [SIMILARITY #1] score=0.44038904 | doc_id=18 | chunk_index=0 {"cosine_score":0.44038904,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:06:55] production.INFO: [SIMILARITY #2] score=0.430375 | doc_id=18 | chunk_index=1 {"cosine_score":0.430375,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:06:55] production.INFO: [SIMILARITY #3] score=0.33692762 | doc_id=18 | chunk_index=2 {"cosine_score":0.33692762,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:06:55] production.INFO: [SIMILARITY #4] score=0.24279419 | doc_id=18 | chunk_index=3 {"cosine_score":0.24279419,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:06:55] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:06:55] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 happy customers. I would be happy to assist you with taxi prices or bookings today. Please let me know your pickup location, drop location, travel date, time, and number of passengers so I can ..."} 
+[2026-03-25 07:06:55] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:07:19] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:07:19] production.INFO: [RAG] Query received {"org_id":87,"query":"do i need to pay in andvance?","top_k":5} 
+[2026-03-25 07:07:19] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:07:20] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:07:20] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.003060169,-0.011478409,0.030268662,-0.010087087,-0.006856703]} 
+[2026-03-25 07:07:20] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:07:20] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.31763914,"doc_id":18,"chunk_index":3},{"score":0.23929654,"doc_id":18,"chunk_index":2},{"score":0.18643714,"doc_id":18,"chunk_index":1},{"score":0.1685151,"doc_id":18,"chunk_index":0}]} 
+[2026-03-25 07:07:20] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:07:20] production.INFO: [SIMILARITY #1] score=0.31763914 | doc_id=18 | chunk_index=3 {"cosine_score":0.31763914,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:07:20] production.INFO: [SIMILARITY #2] score=0.23929654 | doc_id=18 | chunk_index=2 {"cosine_score":0.23929654,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:07:20] production.INFO: [SIMILARITY #3] score=0.18643714 | doc_id=18 | chunk_index=1 {"cosine_score":0.18643714,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:07:20] production.INFO: [SIMILARITY #4] score=0.1685151 | doc_id=18 | chunk_index=0 {"cosine_score":0.1685151,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:07:20] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:07:20] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+confirm your booking for you? 😊”
+
+[Chunk 2]
+(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** are: Sedan (Altis / Honda): 700 THB SUV (Innova / Pajero): 800 THB Fortuner: 900 THB Van (Toyota Commuter): 1100 THB These prices are all-inclusiv..."} 
+[2026-03-25 07:07:20] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:21:54] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:21:54] production.INFO: [RAG] Query received {"org_id":87,"query":"Hello","top_k":5} 
+[2026-03-25 07:21:54] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:21:55] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:21:55] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.019256591796875,-0.06451416015625,-0.0016851425170898438,0.07818603515625,0.021636962890625]} 
+[2026-03-25 07:21:55] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:21:55] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.22827736,"doc_id":18,"chunk_index":3},{"score":0.15769795,"doc_id":18,"chunk_index":0},{"score":0.1285121,"doc_id":18,"chunk_index":2},{"score":0.0747042,"doc_id":18,"chunk_index":1}]} 
+[2026-03-25 07:21:55] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:21:55] production.INFO: [SIMILARITY #1] score=0.22827736 | doc_id=18 | chunk_index=3 {"cosine_score":0.22827736,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:21:55] production.INFO: [SIMILARITY #2] score=0.15769795 | doc_id=18 | chunk_index=0 {"cosine_score":0.15769795,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:21:55] production.INFO: [SIMILARITY #3] score=0.1285121 | doc_id=18 | chunk_index=2 {"cosine_score":0.1285121,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:21:55] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:21:55] production.INFO: [RAG] Context built from 3 chunks {"context_length":5006,"context_preview":"[Chunk 1]
+confirm your booking for you? 😊”
+
+[Chunk 2]
+Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 happy customers. I would be happy to assist you with taxi prices or bookings today. Please let me know your pickup location, drop location, travel da..."} 
+[2026-03-25 07:21:55] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:22:18] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:22:18] production.INFO: [RAG] Query received {"org_id":87,"query":"Taxi","top_k":5} 
+[2026-03-25 07:22:18] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:22:19] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:22:19] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.0300140380859375,-0.0239410400390625,-0.00203704833984375,-0.0174713134765625,-0.034759521484375]} 
+[2026-03-25 07:22:19] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:22:19] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.46348566,"doc_id":18,"chunk_index":0},{"score":0.42147118,"doc_id":18,"chunk_index":2},{"score":0.36131978,"doc_id":18,"chunk_index":1},{"score":0.28054184,"doc_id":18,"chunk_index":3}]} 
+[2026-03-25 07:22:19] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:22:19] production.INFO: [SIMILARITY #1] score=0.46348566 | doc_id=18 | chunk_index=0 {"cosine_score":0.46348566,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:22:19] production.INFO: [SIMILARITY #2] score=0.42147118 | doc_id=18 | chunk_index=2 {"cosine_score":0.42147118,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:22:19] production.INFO: [SIMILARITY #3] score=0.36131978 | doc_id=18 | chunk_index=1 {"cosine_score":0.36131978,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:22:19] production.INFO: [SIMILARITY #4] score=0.28054184 | doc_id=18 | chunk_index=3 {"cosine_score":0.28054184,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:22:19] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:22:19] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 happy customers. I would be happy to assist you with taxi prices or bookings today. Please let me know your pickup location, drop location, travel date, time, and number of passengers so I can ..."} 
+[2026-03-25 07:22:19] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:22:36] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:22:36] production.INFO: [RAG] Query received {"org_id":87,"query":"I want taxi","top_k":5} 
+[2026-03-25 07:22:36] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:22:37] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:22:37] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.0211334228515625,-0.06146240234375,-0.029754638671875,-0.0183563232421875,-0.039459228515625]} 
+[2026-03-25 07:22:37] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:22:37] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.43785077,"doc_id":18,"chunk_index":0},{"score":0.41435608,"doc_id":18,"chunk_index":2},{"score":0.3543827,"doc_id":18,"chunk_index":1},{"score":0.30603847,"doc_id":18,"chunk_index":3}]} 
+[2026-03-25 07:22:37] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:22:37] production.INFO: [SIMILARITY #1] score=0.43785077 | doc_id=18 | chunk_index=0 {"cosine_score":0.43785077,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:22:37] production.INFO: [SIMILARITY #2] score=0.41435608 | doc_id=18 | chunk_index=2 {"cosine_score":0.41435608,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:22:37] production.INFO: [SIMILARITY #3] score=0.3543827 | doc_id=18 | chunk_index=1 {"cosine_score":0.3543827,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:22:37] production.INFO: [SIMILARITY #4] score=0.30603847 | doc_id=18 | chunk_index=3 {"cosine_score":0.30603847,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:22:37] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:22:37] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 happy customers. I would be happy to assist you with taxi prices or bookings today. Please let me know your pickup location, drop location, travel date, time, and number of passengers so I can ..."} 
+[2026-03-25 07:22:37] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:23:02] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:23:02] production.INFO: [RAG] Query received {"org_id":87,"query":"Bangkok to pattaya","top_k":5} 
+[2026-03-25 07:23:02] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:23:03] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:23:03] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.0021497079,-0.041202527,0.009232639,-0.027109027,-0.072383896]} 
+[2026-03-25 07:23:03] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:23:03] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.5415761,"doc_id":18,"chunk_index":1},{"score":0.5011364,"doc_id":18,"chunk_index":2},{"score":0.35331511,"doc_id":18,"chunk_index":0},{"score":0.18013862,"doc_id":18,"chunk_index":3}]} 
+[2026-03-25 07:23:03] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:23:03] production.INFO: [SIMILARITY #1] score=0.5415761 | doc_id=18 | chunk_index=1 {"cosine_score":0.5415761,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:23:03] production.INFO: [SIMILARITY #2] score=0.5011364 | doc_id=18 | chunk_index=2 {"cosine_score":0.5011364,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:23:03] production.INFO: [SIMILARITY #3] score=0.35331511 | doc_id=18 | chunk_index=0 {"cosine_score":0.35331511,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:23:03] production.INFO: [SIMILARITY #4] score=0.18013862 | doc_id=18 | chunk_index=3 {"cosine_score":0.18013862,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:23:03] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:23:03] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner more expensive than SUV? A: Yes 😊. The Fortuner price is always **100 THB higher than the SUV price** because it is a premium SUV vehicle. Q: What is the taxi price from Bangkok Airport BKK..."} 
+[2026-03-25 07:23:03] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:30:29] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:30:29] production.INFO: [RAG] Query received {"org_id":87,"query":"i want sedan car","top_k":5} 
+[2026-03-25 07:30:29] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:30:35] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:30:35] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.01311492919921875,-0.032623291015625,-0.0655517578125,-0.0204315185546875,0.007274627685546875]} 
+[2026-03-25 07:30:35] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:30:35] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.2549539,"doc_id":18,"chunk_index":0},{"score":0.23766626,"doc_id":18,"chunk_index":1},{"score":0.22389889,"doc_id":18,"chunk_index":2},{"score":0.21607342,"doc_id":18,"chunk_index":3}]} 
+[2026-03-25 07:30:35] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:30:35] production.INFO: [SIMILARITY #1] score=0.2549539 | doc_id=18 | chunk_index=0 {"cosine_score":0.2549539,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:30:35] production.INFO: [SIMILARITY #2] score=0.23766626 | doc_id=18 | chunk_index=1 {"cosine_score":0.23766626,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:30:35] production.INFO: [SIMILARITY #3] score=0.22389889 | doc_id=18 | chunk_index=2 {"cosine_score":0.22389889,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:30:35] production.INFO: [SIMILARITY #4] score=0.21607342 | doc_id=18 | chunk_index=3 {"cosine_score":0.21607342,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:30:35] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:30:35] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 happy customers. I would be happy to assist you with taxi prices or bookings today. Please let me know your pickup location, drop location, travel date, time, and number of passengers so I can ..."} 
+[2026-03-25 07:30:35] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:31:07] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:31:07] production.INFO: [RAG] Query received {"org_id":87,"query":"but your ad shows 899 price ??","top_k":5} 
+[2026-03-25 07:31:07] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:31:08] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:31:08] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.019244587,-0.053717498,-0.0025293385,0.01482391,0.006948272]} 
+[2026-03-25 07:31:08] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:31:08] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.31196854,"doc_id":18,"chunk_index":3},{"score":0.25563133,"doc_id":18,"chunk_index":2},{"score":0.21533756,"doc_id":18,"chunk_index":1},{"score":0.21252045,"doc_id":18,"chunk_index":0}]} 
+[2026-03-25 07:31:08] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:31:08] production.INFO: [SIMILARITY #1] score=0.31196854 | doc_id=18 | chunk_index=3 {"cosine_score":0.31196854,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:31:08] production.INFO: [SIMILARITY #2] score=0.25563133 | doc_id=18 | chunk_index=2 {"cosine_score":0.25563133,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:31:08] production.INFO: [SIMILARITY #3] score=0.21533756 | doc_id=18 | chunk_index=1 {"cosine_score":0.21533756,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:31:08] production.INFO: [SIMILARITY #4] score=0.21252045 | doc_id=18 | chunk_index=0 {"cosine_score":0.21252045,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:31:08] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:31:08] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+confirm your booking for you? 😊”
+
+[Chunk 2]
+(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** are: Sedan (Altis / Honda): 700 THB SUV (Innova / Pajero): 800 THB Fortuner: 900 THB Van (Toyota Commuter): 1100 THB These prices are all-inclusiv..."} 
+[2026-03-25 07:31:08] production.INFO: ========== RAG PIPELINE END (success) ==========  
+[2026-03-25 07:31:49] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-25 07:31:49] production.INFO: [RAG] Query received {"org_id":87,"query":"you did not ask the date of my travel","top_k":5} 
+[2026-03-25 07:31:49] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-25 07:31:50] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-25 07:31:50] production.INFO: [QDRANT REQUEST] POST /collections/org_87_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.0028438568115234375,-0.03912353515625,-0.00823211669921875,-0.0380859375,-0.055908203125]} 
+[2026-03-25 07:31:50] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":4} 
+[2026-03-25 07:31:50] production.INFO: [QDRANT] Raw scores before threshold filter {"scores":[{"score":0.26358843,"doc_id":18,"chunk_index":3},{"score":0.2048254,"doc_id":18,"chunk_index":2},{"score":0.19190183,"doc_id":18,"chunk_index":0},{"score":0.16866711,"doc_id":18,"chunk_index":1}]} 
+[2026-03-25 07:31:50] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-25 07:31:50] production.INFO: [SIMILARITY #1] score=0.26358843 | doc_id=18 | chunk_index=3 {"cosine_score":0.26358843,"document_id":18,"chunk_index":3,"matched_text":"confirm your booking for you? 😊”"} 
+[2026-03-25 07:31:50] production.INFO: [SIMILARITY #2] score=0.2048254 | doc_id=18 | chunk_index=2 {"cosine_score":0.2048254,"document_id":18,"chunk_index":2,"matched_text":"(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** "} 
+[2026-03-25 07:31:50] production.INFO: [SIMILARITY #3] score=0.19190183 | doc_id=18 | chunk_index=0 {"cosine_score":0.19190183,"document_id":18,"chunk_index":0,"matched_text":"Lux Taxi Service Knowledge Base – Enhanced Q&A Format Q: What should the assistant reply when a customer says \"Hi\" or \"Hello\"? A: Hello and welcome 😊 My name is Waruni and I’m here to help you get the best taxi price 🚖. We are Lux Taxi Service, serving customers since 2010 with more than 100,000 hap"} 
+[2026-03-25 07:31:50] production.INFO: [SIMILARITY #4] score=0.16866711 | doc_id=18 | chunk_index=1 {"cosine_score":0.16866711,"document_id":18,"chunk_index":1,"matched_text":"• Fortuner • Van Q: Which vehicles are available for 4 passengers? A: For 4 passengers, we recommend the following vehicles 🚘: • SUV • Fortuner • Van Q: Which vehicle is available for 5 or more passengers? A: For 5 or more passengers, the suitable vehicle is 🚐: • Van (Toyota Commuter) Q: Is Fortuner"} 
+[2026-03-25 07:31:50] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-25 07:31:50] production.INFO: [RAG] Context built from 4 chunks {"context_length":7569,"context_preview":"[Chunk 1]
+confirm your booking for you? 😊”
+
+[Chunk 2]
+(Altis / Honda): 1350 THB SUV (Innova / Pajero): 1500 THB Fortuner: 1600 THB Van (Toyota Commuter): 2100 THB Payment is made in cash directly to the driver 🚖. Q: What is the taxi price between Don Mueang Airport DMK and Bangkok Airport BKK? A: The taxi prices between **DMK Airport and BKK Airport** are: Sedan (Altis / Honda): 700 THB SUV (Innova / Pajero): 800 THB Fortuner: 900 THB Van (Toyota Commuter): 1100 THB These prices are all-inclusiv..."} 
+[2026-03-25 07:31:50] production.INFO: ========== RAG PIPELINE END (success) ==========  

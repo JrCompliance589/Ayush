@@ -338,8 +338,17 @@ class RagService
             ];
         }, $results);
 
-        // Filter out low-confidence matches (cosine similarity below 0.70 is usually noise)
-        $mapped = array_values(array_filter($mapped, fn($c) => $c['score'] >= 0.70));
+        // Log raw scores before filtering
+        Log::channel('rag')->info('[QDRANT] Raw scores before threshold filter', [
+            'scores' => array_map(fn($c) => [
+                'score' => $c['score'],
+                'doc_id' => $c['document_id'],
+                'chunk_index' => $c['chunk_index'],
+            ], $mapped),
+        ]);
+
+        // Filter out very low-confidence matches
+        $mapped = array_values(array_filter($mapped, fn($c) => $c['score'] >= 0.10));
 
         // Log each result with cosine similarity score and matched text
         Log::channel('rag')->info('=== COSINE SIMILARITY RESULTS ===');

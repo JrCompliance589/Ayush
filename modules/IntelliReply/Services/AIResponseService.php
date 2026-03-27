@@ -197,13 +197,17 @@ class AIResponseService
 
     private function buildSystemMessage(?array $closestDocument): array
     {
-        if (!$closestDocument || !$closestDocument['success']) {
-            return [];
+        if ($closestDocument && $closestDocument['success']) {
+            return [[
+                'role' => 'system',
+                'content' => $closestDocument['system_prompt']
+            ]];
         }
 
+        // Fallback: even without RAG context, prevent hallucination
         return [[
             'role' => 'system',
-            'content' => $closestDocument['system_prompt']
+            'content' => 'You are a helpful customer support assistant. Only answer based on what the user tells you. If you do not know the answer, say "I don\'t have that information right now. Let me connect you with our support team." Do NOT make up information or claim to be an OpenAI model.'
         ]];
     }
 
@@ -316,8 +320,12 @@ class AIResponseService
         return $this->convertToMp3($audio->path, 'amazon');
     }
 
-    private function updateAIAssistanceState(int $contactId, string $message, array $aiConfig): void
+    private function updateAIAssistanceState(int $contactId, ?string $message, array $aiConfig): void
     {
+        if ($message === null || $message === '') {
+            return;
+        }
+
         $contact = Contact::find($contactId);
         $message = strtolower($message);
 
@@ -716,11 +724,60 @@ class AIResponseService
                 ];
             }
 
-            return ['success' => false];
+            // RAG failed — fallback: load raw document text from DB
+            Log::info('[AI] RAG returned no results, falling back to raw document text lookup', [
+                'org_id' => $organizationId,
+                'query' => $query,
+            ]);
+
+            return $this->fallbackToRawDocuments($organizationId, $ragService);
+
         } catch (\Throwable $e) {
             Log::error('RAG Document Search Error: ' . $e->getMessage());
             return ['success' => false];
         }
+    }
+
+    /**
+     * Fallback when vector search fails: load raw document content from DB
+     * and pass it directly as LLM context.
+     */
+    protected function fallbackToRawDocuments(int $organizationId, RagService $ragService): array
+    {
+        $documents = Document::where('organization_id', $organizationId)
+            ->where('status', 'Complete')
+            ->whereNotNull('content')
+            ->where('content', '!=', '')
+            ->get(['id', 'title', 'content']);
+
+        if ($documents->isEmpty()) {
+            Log::info('[AI] No documents found in DB for fallback', ['org_id' => $organizationId]);
+            return ['success' => false];
+        }
+
+        // Build context from raw document content (truncate to ~8000 chars to stay within token limits)
+        $maxLength = 8000;
+        $context = '';
+        foreach ($documents as $doc) {
+            $header = "[Document: {$doc->title}]\n";
+            $remaining = $maxLength - strlen($context);
+            if ($remaining <= 0) break;
+
+            $content = mb_substr($doc->content, 0, $remaining - strlen($header));
+            $context .= $header . $content . "\n\n";
+        }
+        $context = trim($context);
+
+        Log::info('[AI] Fallback: built context from raw documents', [
+            'org_id' => $organizationId,
+            'doc_count' => $documents->count(),
+            'context_length' => strlen($context),
+        ]);
+
+        return [
+            'success' => true,
+            'system_prompt' => $ragService->buildRagSystemPrompt($context),
+        ];
     }
 
     private function generateEmbedding($client, string $query): array

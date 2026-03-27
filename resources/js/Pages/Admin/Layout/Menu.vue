@@ -158,6 +158,18 @@
                     </Link>
                 </li>
                 <li class="hover:bg-slate-50 hover:text-black rounded-[5px] px-2 truncate"
+                    :class="$page.url.startsWith('/admin/country-pricing') ? 'bg-slate-50 text-black' : ''">
+                    <Link rel="noopener noreferrer" href="/admin/country-pricing"
+                        class="flex items-center p-2 space-x-3 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM2 12h20M12 2a15.3 15.3 0 0 1 4 10a15.3 15.3 0 0 1-4 10a15.3 15.3 0 0 1-4-10a15.3 15.3 0 0 1 4-10Z" />
+                    </svg>
+                    <span>{{ $t('Country Pricing') }}</span>
+                    </Link>
+                </li>
+                <li class="hover:bg-slate-50 hover:text-black rounded-[5px] px-2 truncate"
                     :class="$page.url.startsWith('/billing') || $page.url.startsWith('/subscription') ? 'bg-slate-50 text-black' : ''">
                     <Link rel="noopener noreferrer" href="/admin/faqs"
                         class="flex items-center p-2 space-x-3 rounded-md">

@@ -447,7 +447,7 @@ const submitExpiry = async () => {
                                             <DropdownItem as="button" @click="openDebitModal(item.id)">
                                                 {{ $t(`Debit Balance`) }}
                                             </DropdownItem>
-                                            <DropdownItem as="button" @click="openPriceModal(item.id)">
+                                            <DropdownItem :href="'/admin/country-pricing?user_id=' + item.id">
                                                 {{ $t(`Edit Prices`) }}
                                             </DropdownItem>
                                             <DropdownItem as="button" @click="openExpiryModal(item.id)">

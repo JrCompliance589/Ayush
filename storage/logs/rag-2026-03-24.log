@@ -4,3 +4,103 @@
 [2026-03-24 09:00:20] production.INFO: ========== RAG PIPELINE START ==========  
 [2026-03-24 09:00:20] production.INFO: [RAG] Query received {"org_id":2,"query":"hi","top_k":5} 
 [2026-03-24 09:00:20] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:26:35] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:26:35] production.INFO: [RAG] Query received {"org_id":87,"query":"Hello! Can I get more info on this?","top_k":5} 
+[2026-03-24 12:26:35] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:26:41] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:26:41] production.INFO: [RAG] Query received {"org_id":87,"query":"Dmk to pattaya","top_k":5} 
+[2026-03-24 12:26:41] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:26:48] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:26:48] production.INFO: [RAG] Query received {"org_id":87,"query":"4 people","top_k":5} 
+[2026-03-24 12:26:48] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:27:03] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:27:03] production.INFO: [RAG] Query received {"org_id":87,"query":"4 small trolly bag","top_k":5} 
+[2026-03-24 12:27:03] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:51:19] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:51:19] production.INFO: [RAG] Query received {"org_id":2,"query":"Text","top_k":5} 
+[2026-03-24 12:51:19] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:51:24] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:51:24] production.INFO: [RAG] Query received {"org_id":2,"query":"hi","top_k":5} 
+[2026-03-24 12:51:24] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:54:14] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/delete {"document_id":9,"filter":{"filter":{"must":[{"key":"document_id","match":{"value":9}}]}}} 
+[2026-03-24 12:54:14] production.INFO: [QDRANT RESPONSE] DELETE points {"status":200,"body":{"result":{"operation_id":11,"status":"acknowledged"},"status":"ok","time":0.000277855}} 
+[2026-03-24 12:54:43] production.INFO: [QDRANT REQUEST] GET /collections/org_2_documents — Check if collection exists  
+[2026-03-24 12:54:43] production.INFO: [QDRANT RESPONSE] GET /collections/org_2_documents {"status":200,"exists":true} 
+[2026-03-24 12:54:43] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/delete {"document_id":11,"filter":{"filter":{"must":[{"key":"document_id","match":{"value":11}}]}}} 
+[2026-03-24 12:54:43] production.INFO: [QDRANT RESPONSE] DELETE points {"status":200,"body":{"result":{"operation_id":12,"status":"acknowledged"},"status":"ok","time":0.000244181}} 
+[2026-03-24 12:54:43] production.INFO: [QDRANT] Upserting 1 points for doc 11 {"collection":"org_2_documents","chunks_preview":[{"id":1100000,"chunk_index":0,"text_preview":"Complia Services – Knowledge Base (For AI Chatbot Training) Instruction for AI This document is a knowledge base for Com..."}]} 
+[2026-03-24 12:54:43] production.INFO: [QDRANT REQUEST] PUT /collections/org_2_documents/points — Batch 1, 1 points  
+[2026-03-24 12:54:43] production.INFO: [QDRANT RESPONSE] PUT /collections/org_2_documents/points {"status":200,"body":{"result":{"operation_id":13,"status":"acknowledged"},"status":"ok","time":0.00025557}} 
+[2026-03-24 12:54:43] production.INFO: [QDRANT] Indexing complete: doc 11, 1 chunks, org 2  
+[2026-03-24 12:56:44] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:56:44] production.INFO: [RAG] Query received {"org_id":2,"query":"hi","top_k":5} 
+[2026-03-24 12:56:44] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:56:47] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-24 12:56:47] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.003753662109375,-0.0191802978515625,0.01221466064453125,0.03277587890625,0.0161895751953125]} 
+[2026-03-24 12:56:47] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-24 12:56:47] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-24 12:56:47] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-24 12:56:47] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-24 12:56:47] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-24 12:57:14] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:57:14] production.INFO: [RAG] Query received {"org_id":2,"query":"Hello","top_k":5} 
+[2026-03-24 12:57:14] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:57:14] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-24 12:57:14] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.0192108154296875,-0.06451416015625,-0.0017137527465820312,0.07806396484375,0.0215911865234375]} 
+[2026-03-24 12:57:14] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-24 12:57:14] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-24 12:57:14] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-24 12:57:14] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-24 12:57:14] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-24 12:58:17] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:58:17] production.INFO: [RAG] Query received {"org_id":2,"query":"hi","top_k":5} 
+[2026-03-24 12:58:17] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:58:17] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-24 12:58:17] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.0037663814,-0.01915245,0.012180638,0.032823615,0.01621948]} 
+[2026-03-24 12:58:17] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-24 12:58:17] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-24 12:58:17] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-24 12:58:17] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-24 12:58:17] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-24 12:58:20] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:58:20] production.INFO: [RAG] Query received {"org_id":2,"query":"helo","top_k":5} 
+[2026-03-24 12:58:20] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:58:21] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-24 12:58:21] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[-0.006277253,-0.060554545,0.039543524,-0.0013651177,-0.017898796]} 
+[2026-03-24 12:58:21] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-24 12:58:21] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-24 12:58:21] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-24 12:58:21] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-24 12:58:21] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-24 12:58:24] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:58:24] production.INFO: [RAG] Query received {"org_id":2,"query":"hello ji","top_k":5} 
+[2026-03-24 12:58:24] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:58:24] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-24 12:58:24] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.040335227,-0.039285813,0.004143846,0.025710681,0.005623791]} 
+[2026-03-24 12:58:24] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-24 12:58:24] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-24 12:58:24] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-24 12:58:24] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-24 12:58:24] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-24 12:58:42] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 12:58:42] production.INFO: [RAG] Query received {"org_id":2,"query":"Ram Ram Bhai Sara ne !","top_k":5} 
+[2026-03-24 12:58:42] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 12:58:43] production.INFO: [RAG] Embedding generated {"dimensions":1536} 
+[2026-03-24 12:58:43] production.INFO: [QDRANT REQUEST] POST /collections/org_2_documents/points/search {"limit":5,"embedding_dimensions":1536,"embedding_first_5":[0.072261594,-0.0102064395,-0.021354139,-0.012417834,-0.014050865]} 
+[2026-03-24 12:58:43] production.INFO: [QDRANT RESPONSE] Search results {"status":200,"total_points_returned":1} 
+[2026-03-24 12:58:43] production.INFO: === COSINE SIMILARITY RESULTS ===  
+[2026-03-24 12:58:43] production.INFO: === END SIMILARITY RESULTS ===  
+[2026-03-24 12:58:43] production.INFO: [RAG] No matching chunks found — returning empty context  
+[2026-03-24 12:58:43] production.INFO: ========== RAG PIPELINE END (no results) ==========  
+[2026-03-24 13:04:33] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 13:04:33] production.INFO: [RAG] Query received {"org_id":87,"query":"Suv","top_k":5} 
+[2026-03-24 13:04:33] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 13:04:39] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 13:04:39] production.INFO: [RAG] Query received {"org_id":87,"query":"Not fortuner","top_k":5} 
+[2026-03-24 13:04:39] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 13:04:44] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 13:04:44] production.INFO: [RAG] Query received {"org_id":87,"query":"I can’t see price","top_k":5} 
+[2026-03-24 13:04:44] production.INFO: [RAG] Generating query embedding via OpenAI...  
+[2026-03-24 13:16:45] production.INFO: ========== RAG PIPELINE START ==========  
+[2026-03-24 13:16:45] production.INFO: [RAG] Query received {"org_id":87,"query":"Ok","top_k":5} 
+[2026-03-24 13:16:45] production.INFO: [RAG] Generating query embedding via OpenAI...  

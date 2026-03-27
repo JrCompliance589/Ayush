@@ -14,6 +14,7 @@ use App\Models\ContactGroup;
 use App\Models\Organization;
 use App\Models\Template;
 use App\Models\BalanceHistory;
+use App\Models\CountryPricing;
 use App\Services\CampaignService;
 use App\Services\LifetimeSubscriptionService;
 use Illuminate\Http\Request;
@@ -135,21 +136,25 @@ class CampaignController extends BaseController
         }
 
         $contactsGroupUuid = $request->input('contacts');
-        $contactsCount = null;
+        $contacts = collect();
         \Log::info("Contacts group UUID: " . ($contactsGroupUuid ?? 'none'));
+
+        $organizationId = session()->get('current_organization');
 
         if ($contactsGroupUuid) {
             if ($contactsGroupUuid === 'all') {
-                // Get all contacts for the organization
-                $organizationId = session()->get('current_organization');
-                $contactsCount = \App\Models\Contact::where('organization_id', $organizationId)->count();
-                \Log::info("Fetching all contacts for organization. Contact count: {$contactsCount}");
+                $contacts = \App\Models\Contact::where('organization_id', $organizationId)
+                    ->whereNull('deleted_at')
+                    ->pluck('phone');
+                \Log::info("Fetching all contacts for organization. Contact count: {$contacts->count()}");
             } else {
                 $group = \App\Models\ContactGroup::where('uuid', $contactsGroupUuid)->first();
-                $contactsCount = $group ? $group->contacts()->count() : 0;
-                \Log::info("Contact group found with {$contactsCount} contacts");
+                $contacts = $group ? $group->contacts()->pluck('phone') : collect();
+                \Log::info("Contact group found with {$contacts->count()} contacts");
             }
         }
+
+        $contactsCount = $contacts->count();
 
         $userId = method_exists($request, 'user') && $request->user()
                     ? $request->user()->id
@@ -167,28 +172,67 @@ class CampaignController extends BaseController
             ]);
         }
 
-        $marketingPrice = (float) ($user->marketing_price ?? 0);
-        $utilityPrice   = (float) ($user->utility_price ?? 0);
-        $authPrice      = (float) ($user->auth_price ?? 0);
-        $contactsCount  = (int) ($contactsCount ?? 0);
-        \Log::info("Pricing - Marketing: {$marketingPrice}, Utility: {$utilityPrice}, Auth: {$authPrice}, Contacts: {$contactsCount}");
-
+        // Group contacts by country code and calculate per-country charges
         $category = strtolower((string) $templateCategory);
-        \Log::info("Template category: {$category}");
-        switch ($category) {
-            case 'marketing': $perContactPrice = $marketingPrice; break;
-            case 'utility':   $perContactPrice = $utilityPrice;   break;
-            case 'auth':      $perContactPrice = $authPrice;      break;
-            default:          $perContactPrice = $marketingPrice; break;
+        $priceField = match ($category) {
+            'utility' => 'utility_price',
+            'auth', 'authentication' => 'auth_price',
+            default => 'marketing_price',
+        };
+        \Log::info("Template category: {$category}, price field: {$priceField}");
+
+        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $countryGroups = []; // country_code => count
+
+        foreach ($contacts as $phone) {
+            try {
+                $parsed = $phoneUtil->parse($phone, null);
+                $cc = (string) $parsed->getCountryCode();
+            } catch (\Exception $e) {
+                // If parsing fails, use 'unknown'
+                $cc = 'unknown';
+            }
+            $countryGroups[$cc] = ($countryGroups[$cc] ?? 0) + 1;
+        }
+        \Log::info("Country groups: " . json_encode($countryGroups));
+
+        // Fetch all relevant country pricing in one query
+        // First get user-specific pricing, then global pricing as fallback
+        $countryCodes = array_keys($countryGroups);
+        $userPricingMap = CountryPricing::whereIn('country_code', $countryCodes)
+            ->where('user_id', $userId)
+            ->pluck($priceField, 'country_code')
+            ->toArray();
+
+        $globalPricingMap = CountryPricing::whereIn('country_code', $countryCodes)
+            ->whereNull('user_id')
+            ->pluck($priceField, 'country_code')
+            ->toArray();
+
+        // Calculate total charge and build breakdown
+        $totalCharge = 0;
+        $breakdown = [];
+
+        foreach ($countryGroups as $cc => $count) {
+            // User-specific price takes priority over global
+            $price = isset($userPricingMap[$cc]) ? (float) $userPricingMap[$cc] : (isset($globalPricingMap[$cc]) ? (float) $globalPricingMap[$cc] : 0);
+            $subtotal = round($price * $count, 4);
+            $totalCharge += $subtotal;
+            $breakdown[] = [
+                'country_code' => $cc,
+                'contacts' => $count,
+                'price_per_contact' => $price,
+                'subtotal' => $subtotal,
+            ];
         }
 
-        $calculatedCharge = $perContactPrice * $contactsCount;
-        $charge = round($calculatedCharge, 2);
-        \Log::info("Calculated charge: {$charge} ({$perContactPrice} x {$contactsCount})");
+        $charge = round($totalCharge, 2);
+        \Log::info("Total charge: {$charge}, Breakdown: " . json_encode($breakdown));
 
         $oldBalance = (float) $user->balance;
         $newBalance = round($oldBalance - $charge, 2);
         \Log::info("Balance - Old: {$oldBalance}, Charge: {$charge}, New: {$newBalance}");
+
         if ($user->balance < $charge) {
             \Log::warning("Insufficient balance for campaign. Required: {$charge}, Available: {$user->balance}");
             return Redirect::route('campaigns')->with('status', [
@@ -196,21 +240,32 @@ class CampaignController extends BaseController
                 'message' => __('Insufficient balance to create this campaign.')
             ]);
         }
+
         $user->balance = $newBalance;
         $user->save();
         \Log::info("User balance updated from {$oldBalance} to {$newBalance}");
+
+        // Build detailed note with country-wise breakdown
+        $breakdownParts = [];
+        foreach ($breakdown as $item) {
+            if ($item['subtotal'] > 0) {
+                $breakdownParts[] = "+{$item['country_code']}: {$item['contacts']} contacts x Rs.{$item['price_per_contact']} = Rs.{$item['subtotal']}";
+            } else {
+                $breakdownParts[] = "+{$item['country_code']}: {$item['contacts']} contacts x Rs.0 (free)";
+            }
+        }
+        $detailedNote = "Campaign charge ({$category}) for {$contactsCount} contacts | " . implode(' | ', $breakdownParts);
 
         BalanceHistory::create([
             'user_id' => $userId,
             'amount' => -$charge,
             'balance_after' => $newBalance,
             'type' => 'debit',
-            'note' => "Campaign charge for {$contactsCount} contacts"
+            'note' => $detailedNote,
         ]);
         \Log::info("Balance history record created for campaign charge: -{$charge}");
 
         // Record daily usage for lifetime subscribers
-        $organizationId = session()->get('current_organization');
         if (LifetimeSubscriptionService::hasLifetimeSubscription($organizationId)) {
             LifetimeSubscriptionService::recordCampaignCreation($organizationId);
             \Log::info("Recorded lifetime subscription daily usage: 1 campaign");

@@ -5,6 +5,7 @@ use App\Http\Controllers\BalanceHistoryController;
 use App\Http\Controllers\PaymentControllerRazorpay;
 use App\Http\Controllers\SubscriptionExpiryController;
 use App\Http\Controllers\UserPriceController;
+use App\Http\Controllers\CountryPricingController;
 use App\Models\Language;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\File;
@@ -82,6 +83,14 @@ Route::post('/api/users/{id}/decrement-balance', [BalanceController::class, 'dec
 
 Route::post('/api/users/{user}/update-prices', [UserPriceController::class, 'updatePrices']);
 Route::get('/api/users/{user}/prices', [UserPriceController::class, 'getPrices']);
+
+// Country Pricing API
+Route::get('/api/country-pricing', [CountryPricingController::class, 'index']);
+Route::post('/api/country-pricing', [CountryPricingController::class, 'store']);
+Route::put('/api/country-pricing/{countryPricing}', [CountryPricingController::class, 'update']);
+Route::delete('/api/country-pricing/{countryPricing}', [CountryPricingController::class, 'destroy']);
+Route::post('/api/country-pricing/user-pricing', [CountryPricingController::class, 'saveUserPricing']);
+Route::post('/api/country-pricing/reset-user-pricing', [CountryPricingController::class, 'resetUserPricing']);
 
 Route::get('/api/users/{user}/subscription', [SubscriptionExpiryController::class, 'getSubscription']);
 Route::post('/api/users/{user}/update-subscription-expiry', [SubscriptionExpiryController::class, 'updateExpiry']);
@@ -316,6 +325,17 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     Route::resource('billing', App\Http\Controllers\Admin\BillingController::class);
     Route::resource('addons', App\Http\Controllers\Admin\AddonController::class);
     
+    // Country Pricing Management Page
+    Route::get('/country-pricing', function () {
+        $userId = request()->query('user_id');
+        $user = $userId ? \App\Models\User::find($userId) : null;
+        return \Inertia\Inertia::render('Admin/CountryPricing/Index', [
+            'title' => __('Country Pricing'),
+            'user_id' => $userId ? (int) $userId : null,
+            'user_name' => $user ? trim($user->first_name . ' ' . $user->last_name) : null,
+        ]);
+    })->name('admin.country-pricing');
+
     // Lifetime Addons Management Routes
     Route::get('/lifetime-addons', [App\Http\Controllers\Admin\LifetimeAddonController::class, 'index'])->name('admin.lifetime-addons.index');
     Route::get('/lifetime-addons/create', [App\Http\Controllers\Admin\LifetimeAddonController::class, 'create'])->name('admin.lifetime-addons.create');

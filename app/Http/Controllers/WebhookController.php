@@ -54,6 +54,26 @@ class WebhookController extends BaseController
 
     public function whatsappWebhook(Request $request){
         //Log::info($request);
+
+        // Forward a copy of the request to external webhook
+        try {
+            $client = new Client(['timeout' => 5, 'connect_timeout' => 3]);
+            $forwardUrl = 'https://intermetatarsal-bucolically-damon.ngrok-free.dev/api/v1/whatsapp/webhook';
+
+            if ($request->isMethod('get')) {
+                $client->getAsync($forwardUrl . '?' . http_build_query($request->query()));
+            } else {
+                $client->postAsync($forwardUrl, [
+                    'headers' => [
+                        'Content-Type' => $request->header('Content-Type', 'application/json'),
+                    ],
+                    'body' => $request->getContent(),
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::warning('Webhook forward failed: ' . $e->getMessage());
+        }
+
         $verifyToken = Setting::where('key', 'whatsapp_callback_token')->first()->value;
 
         $mode = $request->input('hub_mode');
